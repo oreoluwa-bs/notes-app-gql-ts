@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "module": "commonjs",
+        "target": "ES6",
+        "allowJs": true,
+        "strict": true,
+        "moduleResolution": "node",
+        "types": ["node"],
+        "paths": {
+            "@root/*": ["./src/*"],
+        },
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+    }
+}
