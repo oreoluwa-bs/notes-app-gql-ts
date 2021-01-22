@@ -15,7 +15,7 @@ Open two terminal windows and run the following commands.
 First terminal
 
 ```bash
-cd server && yarn wathc
+cd server && yarn watch
 ```
 
 Second Terminal
