@@ -7,6 +7,7 @@ interface IUser extends Document {
   email: string;
   password: string;
   active: boolean;
+  tokenVersion: number;
   createdAt: Date;
   deletedAt: Date;
 }
@@ -29,6 +30,11 @@ const userSchema: Schema<IUser> = new Schema(
     active: {
       type: Boolean,
       default: true,
+      select: false,
+    },
+    tokenVersion: {
+      type: Number,
+      default: 0,
       select: false,
     },
     createdAt: {

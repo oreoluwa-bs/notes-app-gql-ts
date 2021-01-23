@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import User from "@root/db/models/user";
+import { isAuth } from "@root/helpers/authHelpers";
 
 // Get All Users
 export const users = async (
@@ -47,7 +48,10 @@ export const getMyAccount = async (
   context: any,
   info: any
 ) => {
-  const user = await User.findById("id");
+  const userPayload = isAuth(context);
+  const { userId } = userPayload as any;
+
+  const user = await User.findById(userId);
 
   return user;
 };

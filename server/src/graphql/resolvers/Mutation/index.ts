@@ -1,5 +1,8 @@
-export { signInUser, signUpUser } from // deleteUser,
-// updateUser,
-// updateMyAccount,
+export {
+  signInUser,
+  signUpUser,
+  refreshMyToken, // deleteUser
+  revokeRefreshTokensForUser, // updateUser,
+} from // updateMyAccount,
 // deleteMyAccount,
 "./user";

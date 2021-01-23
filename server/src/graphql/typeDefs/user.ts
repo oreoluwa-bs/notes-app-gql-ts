@@ -32,7 +32,7 @@ const userTypeDefs = gql`
 
   type AuthPayload {
     status: String!
-    token: String
+    accessToken: String
     message: String
     doc: User
   }
@@ -40,11 +40,14 @@ const userTypeDefs = gql`
   extend type Query {
     users(filter: FilterOptionsInput, sort: String, limit: Int): [User]!
     user(filter: FilterOptionsInput!): DocumentPayload
+    getMyAccount: User!
   }
 
   extend type Mutation {
     signInUser(credentials: AuthCredentialsInput): AuthPayload!
     signUpUser(credentials: AuthCredentialsInput): AuthPayload!
+    refreshMyToken: AuthPayload!
+    revokeRefreshTokensForUser(userId: ID!): Boolean!
   }
 `;
 
