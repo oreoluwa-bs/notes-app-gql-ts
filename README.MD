@@ -1,4 +1,4 @@
-# Note-App built
+# Notes-App
 
 ## Technology Stack
 
@@ -19,7 +19,6 @@ cd server && yarn watch
 ```
 
 Second Terminal
-First terminal
 
 ```bash
 cd app && yarn start
