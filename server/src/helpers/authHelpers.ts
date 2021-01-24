@@ -57,7 +57,7 @@ export const isAuth = (context: any) => {
     payload = verify(token, accessEnv("JWT_ACCESS_TOKEN_SECRET"));
     context.payload = payload;
   } catch (error) {
-    throw new Error("User not Authenticated-p");
+    throw new Error("User not Authenticated -p");
   }
 
   return payload;
