@@ -40,7 +40,9 @@ const noteTypeDefs = gql`
   }
 
   extend type Mutation {
-    createNote(note: NoteCredentialsInput!): NoteDocumentPayload!
+    createNote(noteData: NoteCredentialsInput!): NoteDocumentPayload!
+    updateNote(id: ID!, noteData: NoteCredentialsInput!): NoteDocumentPayload!
+    deleteNote(id: ID!): NoteDocumentPayload!
   }
 `;
 

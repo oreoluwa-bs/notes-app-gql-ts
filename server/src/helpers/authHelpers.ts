@@ -71,3 +71,18 @@ export const parseCookies = (context: any) => {
   const cookies = context.req.headers.cookie;
   return parse(cookies);
 };
+
+export const isAuthorized = ({
+  context,
+  authorized,
+}: {
+  context: any;
+  authorized: string;
+}) => {
+  const payload: any = isAuth(context);
+
+  if (payload.userId !== authorized)
+    throw new Error("User not authorized to perform action");
+
+  return true;
+};

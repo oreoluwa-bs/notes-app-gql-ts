@@ -2,7 +2,7 @@ export {
   signInUser,
   signUpUser,
   refreshMyToken, // deleteUser
-  revokeRefreshTokensForUser, // updateUser,
-} from // updateMyAccount,
-// deleteMyAccount,
-"./user";
+  revokeRefreshTokensForUser, // updateUser, // updateMyAccount, // deleteMyAccount,
+} from "./user";
+
+export { createNote, updateNote, deleteNote } from "./note";
