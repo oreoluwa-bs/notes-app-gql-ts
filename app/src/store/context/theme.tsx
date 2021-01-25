@@ -8,7 +8,7 @@ const myTheme = extendTheme({
   colors: {
     primary: {
       base: "#52AD9C",
-      alt: "#6194B6",
+      alt: "#6094B5",
     },
     secondary: "#8A4FFF",
   },

@@ -5,17 +5,33 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  Icon,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { HiEye, HiEyeOff } from "react-icons/hi";
+import { Link as RRLink } from "react-router-dom";
 
 interface Props {}
 
+interface ISignInInput {
+  email: string;
+  password: string;
+}
+
 const LoginPage = (props: Props) => {
   const [showPasswordText, setShowPasswordText] = useState(false);
+  const { register, errors, handleSubmit } = useForm<ISignInInput>();
+
+  const onSubmit = (data: ISignInInput) => {
+    console.log(data);
+  };
 
   return (
     <Center
@@ -32,42 +48,85 @@ const LoginPage = (props: Props) => {
         <Heading>Sign In</Heading>
         <Text color="gray.500">Enter your login credentials</Text>
 
-        <form>
-          <FormControl id="email" py="1rem">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl id="email" py="1rem" position="relative">
             <FormLabel>Email address</FormLabel>
-            <Input type="email" bg="gray.100" border="none" />
+            <Input
+              isInvalid={!!errors.email}
+              type="email"
+              name="email"
+              bg="gray.100"
+              border="none"
+              ref={register({
+                required: { value: true, message: "Email Address is required" },
+              })}
+            />
+
+            <Box position="absolute" mt="5px">
+              <Text color="red.400" fontSize="xs">
+                {errors.email?.message}
+              </Text>
+            </Box>
           </FormControl>
 
-          <FormControl id="password" py="1rem">
+          <FormControl id="password" py="1rem" position="relative">
             <FormLabel>Password</FormLabel>
-            {/* <Input  /> */}
             <InputGroup>
               <Input
-                // pr="4.5rem"
+                pr={0}
+                isInvalid={!!errors.password}
                 bg="gray.100"
                 border="none"
                 type={showPasswordText ? "text" : "password"}
+                name="password"
                 placeholder="Enter password"
+                ref={register({
+                  required: { value: true, message: "Password is required" },
+                  minLength: {
+                    value: 6,
+                    message: "Password must have a minimum of 6 characters",
+                  },
+                })}
               />
-              <InputRightElement width="4.5rem">
-                <Button
-                  h="1.75rem"
-                  size="sm"
+              <InputRightElement>
+                <IconButton
                   onClick={() => setShowPasswordText(!showPasswordText)}
-                >
-                  {showPasswordText ? "Hide" : "Show"}
-                </Button>
+                  aria-label="Toggle show password"
+                  icon={
+                    showPasswordText
+                      ? <Icon as={HiEyeOff} color="gray.500" /> ?? "Hide"
+                      : <Icon as={HiEye} color="primary.base" /> ?? "Show"
+                  }
+                />
               </InputRightElement>
             </InputGroup>
+            <Box position="absolute" mt="5px">
+              <Text color="red.400" fontSize="xs">
+                {errors.password?.message}
+              </Text>
+            </Box>
           </FormControl>
 
           <FormControl
-            id="submit"
-            py="1rem"
             display="flex"
-            justifyContent="flex-end"
+            flexDirection="column"
+            // justifyContent="space-between"
+            alignItems="center"
           >
-            <Button colorScheme="green" bg="primary.base">
+            <Link
+              as={RRLink}
+              to="/signup"
+              color="gray.600"
+              _hover={{ color: "secondary" }}
+            >
+              <Text py="1rem">Don't have an account? Join Us</Text>
+            </Link>
+            <Button
+              alignSelf="flex-end"
+              type="submit"
+              colorScheme="green"
+              bg="primary.base"
+            >
               Sign In to my account
             </Button>
           </FormControl>
