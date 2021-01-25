@@ -1,7 +1,21 @@
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { SignInPage } from "./pages";
+
+import RootProvider from "./store/context";
+
 interface AppProps {}
 
 const App: React.FC<AppProps> = () => {
-  return <div>hi</div>;
+  return (
+    <BrowserRouter>
+      <RootProvider>
+        <Switch>
+          <Route exact path="/" component={() => <div>hi</div>} />
+          <Route path="/signin" component={SignInPage} />
+        </Switch>
+      </RootProvider>
+    </BrowserRouter>
+  );
 };
 
 export default App;
