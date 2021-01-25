@@ -10,6 +10,8 @@ const App: React.FC<AppProps> = () => {
     <BrowserRouter>
       <RootProvider>
         <Switch>
+          <Route path="/app" component={SignInPage} />
+          hi
           <Route exact path="/" component={() => <div>hi</div>} />
           <Route path="/signin" component={SignInPage} />
         </Switch>
