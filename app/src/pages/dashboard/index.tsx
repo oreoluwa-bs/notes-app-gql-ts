@@ -38,11 +38,7 @@ const DashboardPage = (props: Props) => {
         <Box>
           <NotesLogo color="primary.base" fontSize="50px" />
         </Box>
-        <Box
-          position="absolute"
-          right={"-20px"}
-          // top={"20px"}
-        >
+        <Box position="absolute" right={"-20px"} top={"40px"}>
           <IconButton
             onClick={isSideNavOpen ? onCloseSideNav : onOpenSideNav}
             aria-label="toggle Menu bar"
