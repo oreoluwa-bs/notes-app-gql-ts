@@ -31,7 +31,7 @@ const DashboardPage = (props: DashboardProps) => {
           ml="auto"
           width={isSideNavOpen ? "calc(100% - 10px)" : "calc(100% - 260px)"}
           transition="width 0.55s"
-          padding="30px"
+          px="30px"
         >
           <Switch>
             <Route exact path={`${currentMath.path}`} component={WelcomePage} />

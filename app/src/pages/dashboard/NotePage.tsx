@@ -4,7 +4,7 @@ interface NotePageProps {}
 
 const NotePage = (props: NotePageProps) => {
   return (
-    <Box bg="blue.100" minHeight="100vh">
+    <Box bg="blue.100" minHeight="100vh" py="30px">
       {/* Text Editor */}
     </Box>
   );

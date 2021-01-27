@@ -6,7 +6,7 @@ interface WelcomeProps {}
 
 const WelcomePage = (props: WelcomeProps) => {
   return (
-    <Box minHeight="100vh">
+    <Box minHeight="100vh" py="30px">
       <Box width={{ lg: "40%" }}>
         <VStack spacing={4} alignItems="flex-start">
           <Heading>Welcome</Heading>
