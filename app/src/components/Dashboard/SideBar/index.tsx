@@ -4,9 +4,11 @@ import {
   FormLabel,
   IconButton,
   Input,
+  Link,
   VisuallyHidden,
 } from "@chakra-ui/react";
 import { HiMenu } from "react-icons/hi";
+import { Link as RRLink, useRouteMatch } from "react-router-dom";
 import { NotesLogo } from "../../icons";
 import SideNavLink from "./SideNavLink";
 
@@ -17,6 +19,7 @@ interface SideNavProps {
 }
 
 const SideBar = ({ isOpen, onOpen, onClose }: SideNavProps) => {
+  const currentMatch = useRouteMatch();
   return (
     <Box
       bg="gray.100"
@@ -31,7 +34,9 @@ const SideBar = ({ isOpen, onOpen, onClose }: SideNavProps) => {
     >
       {/* Util */}
       <Box>
-        <NotesLogo color="primary.base" fontSize="50px" />
+        <Link as={RRLink} to="/app">
+          <NotesLogo color="primary.base" fontSize="50px" />
+        </Link>
       </Box>
       <Box position="absolute" right={"-20px"} top={"40px"}>
         <IconButton
@@ -52,8 +57,8 @@ const SideBar = ({ isOpen, onOpen, onClose }: SideNavProps) => {
 
       {/* lINKS */}
       <Box p="1rem">
-        {[1].map((_, index) => (
-          <SideNavLink key={index} />
+        {[1, 2].map((data, index) => (
+          <SideNavLink key={index} path={currentMatch.path} {...data} />
         ))}
       </Box>
     </Box>
