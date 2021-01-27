@@ -2,12 +2,17 @@ import {
   Box,
   FormControl,
   FormLabel,
+  Icon,
   IconButton,
   Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
   Link,
   VisuallyHidden,
 } from "@chakra-ui/react";
-import { HiMenu } from "react-icons/hi";
+import { useState } from "react";
+import { HiMenu, HiSearch, HiX } from "react-icons/hi";
 import { Link as RRLink, useRouteMatch } from "react-router-dom";
 import { NotesLogo } from "../../icons";
 import SideNavLink from "./SideNavLink";
@@ -19,7 +24,16 @@ interface SideNavProps {
 }
 
 const SideBar = ({ isOpen, onOpen, onClose }: SideNavProps) => {
+  const [searchValue, setSearchValue] = useState<undefined | string>(undefined);
+
+  const handleOnChangeSearchValue = (
+    evt: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchValue(evt.target.value);
+  };
+
   const currentMatch = useRouteMatch();
+
   return (
     <Box
       bg="gray.100"
@@ -43,6 +57,7 @@ const SideBar = ({ isOpen, onOpen, onClose }: SideNavProps) => {
           <NotesLogo color="primary.base" fontSize="50px" />
         </Link>
       </Box>
+      {/* Toggle sidebar */}
       <Box position="absolute" right={"-20px"} top={"40px"}>
         <IconButton
           onClick={isOpen ? onClose : onOpen}
@@ -56,7 +71,32 @@ const SideBar = ({ isOpen, onOpen, onClose }: SideNavProps) => {
           <VisuallyHidden>
             <FormLabel>Search</FormLabel>
           </VisuallyHidden>
-          <Input type="text" name="search" placeholder="Search Note" />
+
+          <InputGroup>
+            {!searchValue && (
+              <InputLeftElement>
+                <Icon aria-label="cancel search" as={HiSearch} />
+              </InputLeftElement>
+            )}
+            <Input
+              type="text"
+              name="search"
+              placeholder="Search Note"
+              _focus={{ bg: "white" }}
+              value={searchValue}
+              onChange={handleOnChangeSearchValue}
+            />
+            {searchValue && (
+              <InputRightElement>
+                <IconButton
+                  size="sm"
+                  aria-label="cancel search"
+                  icon={<Icon as={HiX} />}
+                  onClick={() => setSearchValue("")}
+                />
+              </InputRightElement>
+            )}
+          </InputGroup>
         </FormControl>
       </Box>
 
