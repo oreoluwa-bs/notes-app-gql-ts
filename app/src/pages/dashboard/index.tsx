@@ -29,8 +29,8 @@ const DashboardPage = (props: DashboardProps) => {
           bg="white"
           height="inherit"
           ml="auto"
-          width={isSideNavOpen ? "calc(100% - 12px)" : "calc(100% - 260px)"}
-          transition="width 0.5s"
+          width={isSideNavOpen ? "calc(100% - 10px)" : "calc(100% - 260px)"}
+          transition="width 0.55s"
           padding="30px"
         >
           <Switch>
