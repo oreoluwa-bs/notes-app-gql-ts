@@ -34,7 +34,12 @@ const SideBar = ({ isOpen, onOpen, onClose }: SideNavProps) => {
     >
       {/* Util */}
       <Box>
-        <Link as={RRLink} to="/app">
+        <Link
+          as={RRLink}
+          to="/app"
+          display="inline-block"
+          _focus={{ boxShadow: "none", outline: "none" }}
+        >
           <NotesLogo color="primary.base" fontSize="50px" />
         </Link>
       </Box>
