@@ -9,6 +9,7 @@ import {
   InputLeftElement,
   InputRightElement,
   Link,
+  useColorModeValue,
   VisuallyHidden,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -35,10 +36,14 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
 
   const currentMatch = useRouteMatch();
 
+  const bg = useColorModeValue("gray.100", "gray.700");
+  const buttonBg = useColorModeValue("gray.100", "gray.700");
+  const focusBG = useColorModeValue("white", "transparent");
+
   return (
     <Box>
       <Box
-        bg="gray.100"
+        bg={bg}
         height="100vh"
         w="260px"
         py="0.5rem"
@@ -67,6 +72,7 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
             onClick={isOpen ? onClose : onOpen}
             aria-label="toggle Menu bar"
             icon={<HiMenu />}
+            bg={buttonBg}
           />
         </Box>
         {/* Search */}
@@ -86,7 +92,7 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
                 type="text"
                 name="search"
                 placeholder="Search Note"
-                _focus={{ bg: "white" }}
+                _focus={{ bg: focusBG }}
                 value={searchValue}
                 onChange={handleOnChangeSearchValue}
               />

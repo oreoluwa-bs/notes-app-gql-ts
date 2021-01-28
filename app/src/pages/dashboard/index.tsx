@@ -1,5 +1,10 @@
 import React from "react";
-import { Box, useDisclosure, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  useColorModeValue,
+  useDisclosure,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import { SideBar } from "../../components/Dashboard";
 import NotePage from "./NotePage";
@@ -16,6 +21,7 @@ const DashboardPage = (props: DashboardProps) => {
   } = useDisclosure({ defaultIsOpen: isMobile });
 
   const currentMath = useRouteMatch();
+  const bg = useColorModeValue("white", "gray.800");
 
   return (
     <Box display="flex">
@@ -27,7 +33,7 @@ const DashboardPage = (props: DashboardProps) => {
       />
       <Box flex="1" bg="secondary" height="100vh">
         <Box
-          bg="white"
+          bg={bg}
           height="inherit"
           ml="auto"
           width={{

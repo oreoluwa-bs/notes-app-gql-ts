@@ -1,4 +1,11 @@
-import { Box, Heading, Link, Text, useTheme } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Link,
+  Text,
+  useColorModeValue,
+  useTheme,
+} from "@chakra-ui/react";
 import { NavLink as RRNavLink } from "react-router-dom";
 
 interface Props {
@@ -16,6 +23,9 @@ const SideNavLink = ({
 }: Props) => {
   const { colors } = useTheme();
 
+  const bg = useColorModeValue(colors.gray["200"], colors.teal["700"]);
+  const textColor = useColorModeValue(colors.primary["base"], colors.white);
+
   return (
     <Link
       to={`${path}/note/${slug}`}
@@ -23,12 +33,12 @@ const SideNavLink = ({
       display="block"
       borderRadius="lg"
       transition="all 0.4s"
-      _hover={{ textDecoration: "none", bg: "gray.200", color: "primary.base" }}
-      _active={{ bg: "gray.200", color: "primary.base" }}
+      _hover={{ textDecoration: "none", bg: bg, color: textColor }}
+      _active={{ bg: bg, color: textColor }}
       _focus={{ boxShadow: "none" }}
       activeStyle={{
-        background: colors.gray["200"],
-        color: colors.primary["base"],
+        background: bg,
+        color: textColor,
       }}
     >
       <Box p="1rem">

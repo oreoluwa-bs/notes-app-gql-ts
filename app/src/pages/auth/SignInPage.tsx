@@ -12,6 +12,7 @@ import {
   InputRightElement,
   Link,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -31,6 +32,8 @@ const LoginPage = (props: SignInProps) => {
   const { handleSignIn } = useContext(AuthContext) as AuthContextType;
   const { register, errors, handleSubmit } = useForm<ISignInInput>();
   const [showPasswordText, setShowPasswordText] = useState(false);
+  const bg = useColorModeValue("white", "gray.800");
+  const inputBG = useColorModeValue("gray.100", "gray.900");
 
   const onSubmit = async (data: ISignInInput) => {
     await handleSignIn(data);
@@ -45,7 +48,7 @@ const LoginPage = (props: SignInProps) => {
         bgGradient="linear(to-r, primary.base, primary.alt)"
       >
         <Box
-          bg="white"
+          bg={bg}
           minWidth={{ base: "85%", md: "500px" }}
           borderRadius="xl"
           padding="2rem"
@@ -60,7 +63,7 @@ const LoginPage = (props: SignInProps) => {
                 isInvalid={!!errors.email}
                 type="email"
                 name="email"
-                bg="gray.100"
+                bg={inputBG}
                 border="none"
                 ref={register({
                   required: {
@@ -83,7 +86,7 @@ const LoginPage = (props: SignInProps) => {
                 <Input
                   pr={0}
                   isInvalid={!!errors.password}
-                  bg="gray.100"
+                  bg={inputBG}
                   border="none"
                   type={showPasswordText ? "text" : "password"}
                   name="password"
@@ -100,6 +103,7 @@ const LoginPage = (props: SignInProps) => {
                   <IconButton
                     onClick={() => setShowPasswordText(!showPasswordText)}
                     aria-label="Toggle show password"
+                    bg={inputBG}
                     icon={
                       showPasswordText
                         ? <Icon as={HiEyeOff} color="gray.500" /> ?? "Hide"
