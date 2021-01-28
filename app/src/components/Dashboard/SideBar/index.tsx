@@ -19,8 +19,8 @@ import SideNavLink from "./SideNavLink";
 
 interface SideNavProps {
   isOpen: boolean;
-  onClose?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  onOpen?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onOpen?: () => void;
+  onClose?: () => void;
 }
 
 const SideBar = ({ isOpen, onOpen, onClose }: SideNavProps) => {
@@ -40,7 +40,7 @@ const SideBar = ({ isOpen, onOpen, onClose }: SideNavProps) => {
       height="100vh"
       w="260px"
       py="0.5rem"
-      position="fixed"
+      position={{ base: "absolute", lg: "fixed" }}
       transition="all 0.5s"
       transform={!isOpen ? "translateX(0)" : "translateX(-250px)"}
       display="flex"

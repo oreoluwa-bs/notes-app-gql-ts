@@ -29,7 +29,9 @@ const DashboardPage = (props: DashboardProps) => {
           bg="white"
           height="inherit"
           ml="auto"
-          width={isSideNavOpen ? "calc(100% - 10px)" : "calc(100% - 260px)"}
+          width={{
+            lg: isSideNavOpen ? "calc(100% - 10px)" : "calc(100% - 260px)",
+          }}
           transition="width 0.55s"
           px="30px"
         >
