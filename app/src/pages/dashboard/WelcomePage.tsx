@@ -1,12 +1,14 @@
 import { Box, Button, Heading, Icon, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 import { HiPlus } from "react-icons/hi";
+import { AccountSettings } from "../../components/Dashboard";
 
 interface WelcomeProps {}
 
 const WelcomePage = (props: WelcomeProps) => {
   return (
     <Box minHeight="100vh" py="30px">
+      <AccountSettings />
       <Box width={{ lg: "40%" }}>
         <VStack spacing={4} alignItems="flex-start">
           <Heading>Welcome</Heading>
