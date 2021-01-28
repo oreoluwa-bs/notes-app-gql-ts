@@ -13,25 +13,27 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { Link as RRLink } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import { AuthContext, AuthContextType } from "../../store/context/auth";
 
-interface Props {}
+interface SignInProps {}
 
 interface ISignInInput {
   email: string;
   password: string;
 }
 
-const LoginPage = (props: Props) => {
-  const [showPasswordText, setShowPasswordText] = useState(false);
+const LoginPage = (props: SignInProps) => {
+  const { handleSignIn } = useContext(AuthContext) as AuthContextType;
   const { register, errors, handleSubmit } = useForm<ISignInInput>();
+  const [showPasswordText, setShowPasswordText] = useState(false);
 
-  const onSubmit = (data: ISignInInput) => {
-    console.log(data);
+  const onSubmit = async (data: ISignInInput) => {
+    await handleSignIn(data);
   };
 
   return (

@@ -1,7 +1,7 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 interface Props {
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 const myTheme = extendTheme({
