@@ -23,6 +23,7 @@ const DashboardPage = (props: DashboardProps) => {
         isOpen={isSideNavOpen}
         onClose={onCloseSideNav}
         onOpen={onOpenSideNav}
+        isMobile={isMobile}
       />
       <Box flex="1" bg="secondary" height="100vh">
         <Box
