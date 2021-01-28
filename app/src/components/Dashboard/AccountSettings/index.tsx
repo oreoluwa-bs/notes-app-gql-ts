@@ -27,7 +27,7 @@ const AccountSettings = ({ actions }: AccountSettingsProps) => {
       <Box display="flex" position="absolute" right={{ base: "10px" }}>
         <HStack spacing="1rem">
           {actions?.map((element) => element)}
-          <Menu placement="bottom-end" isLazy fixed>
+          <Menu placement="bottom-end" isLazy fixed preventOverflow>
             <MenuButton
               as={isMobile ? IconButton : Button}
               aria-label="Options"
