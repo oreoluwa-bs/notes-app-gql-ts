@@ -2,11 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+
+const link = onError(({ graphQLErrors, networkError, response }) => {
+  graphQLErrors && console.log("⚛️ [GraphQl Error]:", graphQLErrors);
+  networkError && console.log("👮🏻‍♀️ [Network error]:", networkError);
+});
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000",
   cache: new InMemoryCache(),
+  link: ApolloLink.from([link, new HttpLink({ uri: "http://localhost:5000" })]),
 });
 
 ReactDOM.render(
