@@ -1,6 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { DashboardPage, SignInPage, SignUpPage } from "./pages";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 import RootProvider from "./store/context";
 
@@ -16,7 +17,8 @@ const App: React.FC<AppProps> = () => {
             <Route path="/signin" component={SignInPage} />
             <Route path="/signup" component={SignUpPage} />
 
-            <Route path="/app" component={DashboardPage} />
+            {/* <Route path="/app" component={DashboardPage} /> */}
+            <ProtectedRoute path="/app" component={DashboardPage} />
           </Switch>
         </Box>
       </RootProvider>
