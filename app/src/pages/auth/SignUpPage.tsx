@@ -21,23 +21,23 @@ import { Link as RRLink } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { AuthContext, AuthContextType } from "../../store/context/auth";
 
-interface SignInProps {}
+interface SignUpProps {}
 
-interface ISignInInput {
+interface ISignUpInput {
   email: string;
   password: string;
 }
 
-const SignInPage = (props: SignInProps) => {
-  const { handleSignIn } = useContext(AuthContext) as AuthContextType;
-  const { register, errors, handleSubmit } = useForm<ISignInInput>();
+const SignUpPage = (props: SignUpProps) => {
+  const { handleSignUp } = useContext(AuthContext) as AuthContextType;
+  const { register, errors, handleSubmit } = useForm<ISignUpInput>();
   const [showPasswordText, setShowPasswordText] = useState(false);
   const bg = useColorModeValue("white", "gray.800");
   const altTextColor = useColorModeValue("gray.500", "gray.400");
   const inputBG = useColorModeValue("gray.100", "gray.900");
 
-  const onSubmit = async (data: ISignInInput) => {
-    await handleSignIn(data);
+  const onSubmit = async (data: ISignUpInput) => {
+    await handleSignUp(data);
   };
 
   return (
@@ -45,8 +45,8 @@ const SignInPage = (props: SignInProps) => {
       <Navbar />
       <Center
         height="100vh"
-        bg="green.500"
-        bgGradient="linear(to-r, primary.base, primary.alt)"
+        bg="purple.500"
+        bgGradient="linear(to-r, secondary, purple.600)"
       >
         <Box
           bg={bg}
@@ -54,7 +54,7 @@ const SignInPage = (props: SignInProps) => {
           borderRadius="xl"
           padding="2rem"
         >
-          <Heading>Sign In</Heading>
+          <Heading>Sign Up</Heading>
           <Text color={altTextColor}>Enter your account credentials</Text>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -124,18 +124,17 @@ const SignInPage = (props: SignInProps) => {
               pt="1rem"
               display="flex"
               flexDirection="column"
-              // justifyContent="center"
               alignItems="center"
             >
               <Button
-                // alignSelf="flex-end"
                 alignSelf="stretch"
                 type="submit"
-                colorScheme="green"
-                bg="primary.base"
+                colorScheme="purple"
+                bg="secondary"
+                color="white"
                 mb="5px"
               >
-                Sign In to my account
+                Create my account
               </Button>
               <Box
                 py={2}
@@ -152,12 +151,12 @@ const SignInPage = (props: SignInProps) => {
               </Box>
               <Link
                 as={RRLink}
-                to="/signup"
+                to="/signin"
                 color={altTextColor}
-                _hover={{ color: "secondary" }}
+                _hover={{ color: "primary.base" }}
                 // py="1rem"
               >
-                <Text>Don't have an account? Join Us</Text>
+                <Text>Already have an account? Sign in</Text>
               </Link>
             </FormControl>
           </form>
@@ -167,4 +166,4 @@ const SignInPage = (props: SignInProps) => {
   );
 };
 
-export default SignInPage;
+export default SignUpPage;
