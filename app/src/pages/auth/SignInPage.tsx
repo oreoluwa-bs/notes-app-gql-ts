@@ -33,6 +33,7 @@ const LoginPage = (props: SignInProps) => {
   const { register, errors, handleSubmit } = useForm<ISignInInput>();
   const [showPasswordText, setShowPasswordText] = useState(false);
   const bg = useColorModeValue("white", "gray.800");
+  const altTextColor = useColorModeValue("gray.500", "gray.400");
   const inputBG = useColorModeValue("gray.100", "gray.900");
 
   const onSubmit = async (data: ISignInInput) => {
@@ -54,7 +55,7 @@ const LoginPage = (props: SignInProps) => {
           padding="2rem"
         >
           <Heading>Sign In</Heading>
-          <Text color="gray.500">Enter your sign in credentials</Text>
+          <Text color={altTextColor}>Enter your sign in credentials</Text>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl id="email" my="1rem" position="relative">
@@ -152,7 +153,7 @@ const LoginPage = (props: SignInProps) => {
               <Link
                 as={RRLink}
                 to="/signup"
-                color="gray.600"
+                color={altTextColor}
                 _hover={{ color: "secondary" }}
                 // py="1rem"
               >
