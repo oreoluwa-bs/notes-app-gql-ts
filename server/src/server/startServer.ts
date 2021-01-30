@@ -9,7 +9,10 @@ const PORT = accessEnv("PORT", 5000);
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  cors: true,
+  cors: {
+    origin: ["http://localhost:3000"],
+    credentials: true,
+  },
   context: ({ req, res }) => ({ req, res, payload: null }),
 });
 
