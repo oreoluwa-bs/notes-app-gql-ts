@@ -1,10 +1,13 @@
 import { gql, useMutation } from "@apollo/client";
 import { useToast, UseToastOptions } from "@chakra-ui/react";
 import { createContext, useState } from "react";
+// import { setAccessToken } from "../global/accessToken";
 
 export type AuthContextType = {
   getAccessToken: () => string | null;
   setAccessToken: (token: string) => void;
+
+  handleRefreshMyToken: () => Promise<void>;
 
   handleSignIn: (credentials: {
     email: string;
@@ -28,36 +31,44 @@ const SIGN_IN = gql`
       status
       message
       accessToken
-      doc {
-        id
-        email
-      }
     }
   }
 `;
 
 const SIGN_UP = gql`
-  mutation SignIn($email: String!, $password: String!) {
-    signInUser(credentials: { email: $email, password: $password }) {
+  mutation SignUp($email: String!, $password: String!) {
+    signUpUser(credentials: { email: $email, password: $password }) {
       status
       message
       accessToken
-      doc {
-        id
-        email
-      }
     }
   }
 `;
+
+const REFRESH_MY_TOKEN = gql`
+  mutation RefreshMyToken {
+    refreshMyToken {
+      status
+      message
+      accessToken
+    }
+  }
+`;
+
+export let accesToken: string | null = null;
 
 const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
   const [auth, setAuth] = useState<string | null>(null);
   const authToast = useToast();
   const [signInUser] = useMutation(SIGN_IN);
   const [signUpUser] = useMutation(SIGN_UP);
+  const [refreshMyToken] = useMutation(REFRESH_MY_TOKEN);
 
   const getAccessToken = () => auth;
-  const setAccessToken = (token: string) => setAuth(token);
+  const setAccessToken = (token: string) => {
+    accesToken = token;
+    setAuth(token);
+  };
 
   const handleSignIn = async (credentials: {
     email: string;
@@ -80,6 +91,16 @@ const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
       setAccessToken(data.signUpUser["accessToken"]);
     } catch (err) {
       callToast({ message: err.message, status: "error" });
+    }
+  };
+
+  const handleRefreshMyToken = async () => {
+    try {
+      const { data } = await refreshMyToken();
+      setAccessToken(data.refreshMyToken["accessToken"]);
+    } catch (err) {
+      console.log(err);
+      // callToast({ message: err.message, status: "error" });
     }
   };
 
@@ -106,6 +127,7 @@ const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
         handleSignUp,
         getAccessToken,
         setAccessToken,
+        handleRefreshMyToken,
       }}
     >
       {children}
