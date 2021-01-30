@@ -1,8 +1,11 @@
 import { gql, useMutation } from "@apollo/client";
 import { useToast, UseToastOptions } from "@chakra-ui/react";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export type AuthContextType = {
+  getAccessToken: () => string | null;
+  setAccessToken: (token: string) => void;
+
   handleSignIn: (credentials: {
     email: string;
     password: string;
@@ -48,17 +51,21 @@ const SIGN_UP = gql`
 `;
 
 const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
+  const [auth, setAuth] = useState<string | null>(null);
   const authToast = useToast();
   const [signInUser] = useMutation(SIGN_IN);
   const [signUpUser] = useMutation(SIGN_UP);
+
+  const getAccessToken = () => auth;
+  const setAccessToken = (token: string) => setAuth(token);
 
   const handleSignIn = async (credentials: {
     email: string;
     password: string;
   }) => {
     try {
-      const data = await signInUser({ variables: credentials });
-      console.log(data);
+      const { data } = await signInUser({ variables: credentials });
+      setAccessToken(data.signInUser["accessToken"]);
     } catch (err) {
       callToast({ message: err.message, status: "error" });
     }
@@ -69,8 +76,8 @@ const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
     password: string;
   }) => {
     try {
-      const data = await signUpUser({ variables: credentials });
-      console.log(data);
+      const { data } = await signUpUser({ variables: credentials });
+      setAccessToken(data.signUpUser["accessToken"]);
     } catch (err) {
       callToast({ message: err.message, status: "error" });
     }
@@ -83,15 +90,12 @@ const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
     status: UseToastOptions["status"];
     message: string;
   }) => {
-    const toastConfig: UseToastOptions = {
+    authToast({
+      status,
+      title: message,
       position: "top",
       duration: 9000,
       isClosable: true,
-    };
-    authToast({
-      title: message,
-      status,
-      ...toastConfig,
     });
   };
 
@@ -100,6 +104,8 @@ const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
       value={{
         handleSignIn,
         handleSignUp,
+        getAccessToken,
+        setAccessToken,
       }}
     >
       {children}
