@@ -10,6 +10,7 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import { accesToken } from "./store/context/auth";
 
 const link = onError(({ graphQLErrors, networkError, response }) => {
   graphQLErrors && console.log("⚛️ [GraphQl Error]:", graphQLErrors);
@@ -18,7 +19,14 @@ const link = onError(({ graphQLErrors, networkError, response }) => {
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: ApolloLink.from([link, new HttpLink({ uri: "http://localhost:5000" })]),
+  link: ApolloLink.from([
+    link,
+    new HttpLink({ uri: "http://localhost:5000", credentials: "include" }),
+  ]),
+  credentials: "include",
+  headers: {
+    authorization: `Bearer ${accesToken}` || "",
+  },
 });
 
 ReactDOM.render(

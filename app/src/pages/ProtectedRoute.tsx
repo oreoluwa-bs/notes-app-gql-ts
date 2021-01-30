@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
 import { AuthContext, AuthContextType } from "../store/context/auth";
+// import { getAccessToken } from "../store/global/accessToken";
 
 interface Props extends RouteProps {}
 

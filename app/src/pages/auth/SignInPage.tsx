@@ -17,7 +17,11 @@ import {
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import { Link as RRLink, RouteComponentProps } from "react-router-dom";
+import {
+  Link as RRLink,
+  Redirect,
+  RouteComponentProps,
+} from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { AuthContext, AuthContextType } from "../../store/context/auth";
 
@@ -29,7 +33,9 @@ interface ISignInInput {
 }
 
 const SignInPage = (props: SignInProps) => {
-  const { handleSignIn } = useContext(AuthContext) as AuthContextType;
+  const { getAccessToken, handleSignIn } = useContext(
+    AuthContext
+  ) as AuthContextType;
   const { register, errors, handleSubmit } = useForm<ISignInInput>();
   const [showPasswordText, setShowPasswordText] = useState(false);
   const bg = useColorModeValue("white", "gray.800");
@@ -40,6 +46,8 @@ const SignInPage = (props: SignInProps) => {
     await handleSignIn(data);
     props.history.push("/app");
   };
+
+  if (getAccessToken()) return <Redirect to={{ pathname: "/app" }} />;
 
   return (
     <>
