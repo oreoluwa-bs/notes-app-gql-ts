@@ -23,7 +23,7 @@ const Routes = (props: Props) => {
 
   if (isLoading)
     return (
-      <Center height="100vh" colorScheme="blackAlpha">
+      <Center height="100vh">
         <Spinner
           thickness="4px"
           speed="0.65s"
