@@ -17,11 +17,11 @@ import {
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import { Link as RRLink } from "react-router-dom";
+import { Link as RRLink, RouteComponentProps } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { AuthContext, AuthContextType } from "../../store/context/auth";
 
-interface SignInProps {}
+interface SignInProps extends RouteComponentProps {}
 
 interface ISignInInput {
   email: string;
@@ -38,6 +38,7 @@ const SignInPage = (props: SignInProps) => {
 
   const onSubmit = async (data: ISignInInput) => {
     await handleSignIn(data);
+    props.history.push("/app");
   };
 
   return (
