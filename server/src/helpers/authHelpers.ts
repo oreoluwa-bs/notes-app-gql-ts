@@ -69,6 +69,7 @@ export const verifyRefreshToken = async (token: string) => {
 
 export const parseCookies = (context: any) => {
   const cookies = context.req.headers.cookie;
+  if (!cookies) return { jid: null };
   return parse(cookies);
 };
 
