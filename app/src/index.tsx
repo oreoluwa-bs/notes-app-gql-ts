@@ -21,7 +21,10 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: ApolloLink.from([
     link,
-    new HttpLink({ uri: "http://localhost:5000", credentials: "include" }),
+    new HttpLink({
+      uri: process.env.REACT_APP_APOLLO_SERVER_URI,
+      credentials: "include",
+    }),
   ]),
   credentials: "include",
   headers: {
