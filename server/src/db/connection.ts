@@ -6,6 +6,7 @@ const DB_URL = accessEnv("DB_URL");
 const databaseConnection = connect(DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 })
   .then(() => {
     // eslint-disable-next-line no-console
