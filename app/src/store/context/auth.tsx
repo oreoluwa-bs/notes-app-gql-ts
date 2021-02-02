@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { useToast, UseToastOptions } from "@chakra-ui/react";
-import { createContext, useState } from "react";
-// import { setAccessToken } from "../global/accessToken";
+import { createContext } from "react";
+import { setAccessToken, getAccessToken } from "../global/accessToken";
 
 export type AuthContextType = {
   getAccessToken: () => string | null;
@@ -45,7 +45,7 @@ const SIGN_UP = gql`
   }
 `;
 
-const REFRESH_MY_TOKEN = gql`
+export const REFRESH_MY_TOKEN = gql`
   mutation RefreshMyToken {
     refreshMyToken {
       status
@@ -55,20 +55,12 @@ const REFRESH_MY_TOKEN = gql`
   }
 `;
 
-export let accesToken: string | null = null;
-
 const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
-  const [auth, setAuth] = useState<string | null>(null);
+  // const [auth, setAuth] = useState<string | null>(null);
   const authToast = useToast();
   const [signInUser] = useMutation(SIGN_IN);
   const [signUpUser] = useMutation(SIGN_UP);
   const [refreshMyToken] = useMutation(REFRESH_MY_TOKEN);
-
-  const getAccessToken = () => auth;
-  const setAccessToken = (token: string) => {
-    accesToken = token;
-    setAuth(token);
-  };
 
   const handleSignIn = async (credentials: {
     email: string;
