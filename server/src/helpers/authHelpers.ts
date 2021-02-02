@@ -20,18 +20,16 @@ export const getToken = (authHeader: string | undefined) => {
 };
 
 export const createAccessToken = (data: { [key: string]: any }): string => {
-  const accessToken = sign(
-    { ...data, iat: Date.now() },
-    accessEnv("JWT_ACCESS_TOKEN_SECRET"),
-    { expiresIn: "120m" }
-  );
+  const accessToken = sign({ ...data }, accessEnv("JWT_ACCESS_TOKEN_SECRET"), {
+    expiresIn: "5s",
+  });
 
   return accessToken;
 };
 
 export const createRefreshToken = (data: { [key: string]: any }): string => {
   const refreshToken = sign(
-    { ...data, iat: Date.now() },
+    { ...data },
     accessEnv("JWT_REFRESH_TOKEN_SECRET"),
     { expiresIn: "7d" }
   );
