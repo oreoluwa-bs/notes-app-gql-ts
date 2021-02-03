@@ -1,6 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
-import { useToast, UseToastOptions } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { createContext } from "react";
+import { callToast } from "../../helpers/callToast";
 import { setAccessToken, getAccessToken } from "../global/accessToken";
 
 export type AuthContextType = {
@@ -64,7 +65,6 @@ export const SIGN_OUT_USER = gql`
 `;
 
 const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
-  // const [auth, setAuth] = useState<string | null>(null);
   const authToast = useToast();
   const [signInUser] = useMutation(SIGN_IN);
   const [signUpUser] = useMutation(SIGN_UP);
@@ -79,7 +79,7 @@ const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
       const { data } = await signInUser({ variables: credentials });
       setAccessToken(data.signInUser["accessToken"]);
     } catch (err) {
-      callToast({ message: err.message, status: "error" });
+      callToast(authToast, { message: err.message, status: "error" });
     }
   };
 
@@ -91,7 +91,7 @@ const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
       const { data } = await signUpUser({ variables: credentials });
       setAccessToken(data.signUpUser["accessToken"]);
     } catch (err) {
-      callToast({ message: err.message, status: "error" });
+      callToast(authToast, { message: err.message, status: "error" });
     }
   };
 
@@ -112,22 +112,6 @@ const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const callToast = ({
-    status,
-    message,
-  }: {
-    status: UseToastOptions["status"];
-    message: string;
-  }) => {
-    authToast({
-      status,
-      title: message,
-      position: "top",
-      duration: 9000,
-      isClosable: true,
-    });
   };
 
   return (
