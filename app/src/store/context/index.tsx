@@ -1,4 +1,5 @@
 import AuthContextProvider from "./auth";
+import NoteContextProvider from "./note";
 import MyTheme from "./theme";
 
 interface Props {
@@ -8,7 +9,9 @@ interface Props {
 const RootProvider = ({ children }: Props) => {
   return (
     <MyTheme>
-      <AuthContextProvider>{children}</AuthContextProvider>
+      <AuthContextProvider>
+        <NoteContextProvider>{children}</NoteContextProvider>
+      </AuthContextProvider>
     </MyTheme>
   );
 };

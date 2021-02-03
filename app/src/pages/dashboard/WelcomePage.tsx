@@ -1,11 +1,13 @@
 import { Box, Button, Heading, Icon, Text, VStack } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { HiPlus } from "react-icons/hi";
 import { AccountSettings } from "../../components/Dashboard";
+import { NoteContext, NoteContextType } from "../../store/context/note";
 
 interface WelcomeProps {}
 
 const WelcomePage = (props: WelcomeProps) => {
+  const { handleCreateNote } = useContext(NoteContext) as NoteContextType;
   return (
     <Box minHeight="100vh" py="30px">
       <AccountSettings />
@@ -22,6 +24,9 @@ const WelcomePage = (props: WelcomeProps) => {
             rightIcon={<Icon as={HiPlus} />}
             bgColor="primary.base"
             colorScheme="green"
+            onClick={async () => {
+              await handleCreateNote();
+            }}
           >
             Create a new note
           </Button>
