@@ -1,3 +1,4 @@
+import { gql, useQuery } from "@apollo/client";
 import {
   Box,
   FormControl,
@@ -9,6 +10,7 @@ import {
   InputLeftElement,
   InputRightElement,
   Link,
+  Skeleton,
   useColorModeValue,
   VisuallyHidden,
 } from "@chakra-ui/react";
@@ -25,8 +27,20 @@ interface SideNavProps {
   onClose?: () => void;
 }
 
+const GET_MY_NOTES = gql`
+  query GetMyNotes {
+    getMyNotes {
+      id
+      title
+      slug
+      content
+    }
+  }
+`;
+
 const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
   const [searchValue, setSearchValue] = useState<undefined | string>(undefined);
+  const { loading, data: myNotes } = useQuery(GET_MY_NOTES);
 
   const handleOnChangeSearchValue = (
     evt: React.ChangeEvent<HTMLInputElement>
@@ -111,11 +125,18 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
         </Box>
 
         {/* lINKS */}
-        <Box p="1rem">
-          {[1, 2].map((data, index) => (
-            <SideNavLink key={index} path={currentMatch.path} {...data} />
-          ))}
-        </Box>
+        <Skeleton isLoaded={!loading}>
+          <Box p="1rem">
+            {myNotes?.getMyNotes?.map(({ slug, ...note }: { slug: string }) => (
+              <SideNavLink
+                key={`note-${slug}`}
+                path={currentMatch.path}
+                slug={slug}
+                {...note}
+              />
+            ))}
+          </Box>
+        </Skeleton>
       </Box>
       {!isOpen && isMobile && (
         <Box
