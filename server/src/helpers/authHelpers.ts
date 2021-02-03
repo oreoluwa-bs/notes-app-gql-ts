@@ -21,7 +21,7 @@ export const getToken = (authHeader: string | undefined) => {
 
 export const createAccessToken = (data: { [key: string]: any }): string => {
   const accessToken = sign({ ...data }, accessEnv("JWT_ACCESS_TOKEN_SECRET"), {
-    expiresIn: "5s",
+    expiresIn: "120m",
   });
 
   return accessToken;
@@ -42,7 +42,7 @@ export const sendRefreshToken = (context: any, data: any): void => {
 
   res.cookie("jid", createRefreshToken(data), {
     httpOnly: true,
-    path:'/refresh_token'
+    // path: "/refresh_token",
   });
 };
 
