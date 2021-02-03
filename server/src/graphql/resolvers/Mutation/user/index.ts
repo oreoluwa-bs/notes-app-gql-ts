@@ -152,3 +152,9 @@ export const revokeRefreshTokensForUser = async (
   });
   return true;
 };
+
+// Sign Out user
+export const signOutUser = async (parent: any, arg: any, context: any) => {
+  sendRefreshToken(context, "");
+  return true;
+};

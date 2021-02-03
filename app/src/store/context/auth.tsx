@@ -9,6 +9,8 @@ export type AuthContextType = {
 
   handleRefreshMyToken: () => Promise<void>;
 
+  handleSignOutUser: () => Promise<void>;
+
   handleSignIn: (credentials: {
     email: string;
     password: string;
@@ -55,12 +57,19 @@ export const REFRESH_MY_TOKEN = gql`
   }
 `;
 
+export const SIGN_OUT_USER = gql`
+  mutation SignOutUser {
+    signOutUser
+  }
+`;
+
 const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
   // const [auth, setAuth] = useState<string | null>(null);
   const authToast = useToast();
   const [signInUser] = useMutation(SIGN_IN);
   const [signUpUser] = useMutation(SIGN_UP);
   const [refreshMyToken] = useMutation(REFRESH_MY_TOKEN);
+  const [signOutUser, { client }] = useMutation(SIGN_OUT_USER);
 
   const handleSignIn = async (credentials: {
     email: string;
@@ -86,13 +95,22 @@ const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
     }
   };
 
+  const handleSignOutUser = async () => {
+    try {
+      await signOutUser();
+      setAccessToken("");
+      await client.resetStore();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleRefreshMyToken = async () => {
     try {
       const { data } = await refreshMyToken();
       setAccessToken(data.refreshMyToken["accessToken"]);
     } catch (err) {
       console.log(err);
-      // callToast({ message: err.message, status: "error" });
     }
   };
 
@@ -120,6 +138,7 @@ const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
         getAccessToken,
         setAccessToken,
         handleRefreshMyToken,
+        handleSignOutUser,
       }}
     >
       {children}

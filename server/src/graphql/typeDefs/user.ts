@@ -48,6 +48,7 @@ const userTypeDefs = gql`
     signUpUser(credentials: AuthCredentialsInput): AuthPayload!
     refreshMyToken: AuthPayload!
     revokeRefreshTokensForUser(userId: ID!): Boolean!
+    signOutUser: Boolean!
   }
 `;
 
