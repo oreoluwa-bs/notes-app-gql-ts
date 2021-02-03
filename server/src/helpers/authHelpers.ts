@@ -42,6 +42,7 @@ export const sendRefreshToken = (context: any, data: any): void => {
 
   res.cookie("jid", createRefreshToken(data), {
     httpOnly: true,
+    path:'/refresh_token'
   });
 };
 
