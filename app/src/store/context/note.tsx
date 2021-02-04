@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, Reference, useMutation } from "@apollo/client";
 import { useToast } from "@chakra-ui/react";
 import { createContext } from "react";
 import { callToast } from "../../helpers/callToast";
@@ -10,7 +10,14 @@ interface INoteDataInput {
 
 export type NoteContextType = {
   handleCreateNote: (noteData?: INoteDataInput) => Promise<void>;
-  handleUpdateNote: (noteData: INoteDataInput) => Promise<void>;
+  handleUpdateNote: ({
+    noteID,
+    noteData,
+  }: {
+    noteID: string;
+    noteData: INoteDataInput;
+  }) => Promise<void>;
+  handleDeleteNote: (noteID: string) => Promise<void>;
 };
 
 export const NoteContext = createContext({});
@@ -34,9 +41,21 @@ const CREATE_NOTE = gql`
   }
 `;
 
+const DELETE_NOTE = gql`
+  mutation DeleteNote($noteID: ID!) {
+    deleteNote(id: $noteID) {
+      status
+      message
+      doc {
+        id
+      }
+    }
+  }
+`;
+
 const UPDATE_NOTE = gql`
-  mutation UpdateNote($title: String!, $content: String) {
-    updateNote(noteData: { title: $title, content: $content }) {
+  mutation UpdateNote($noteID: ID!, $title: String, $content: String) {
+    updateNote(id: $noteID, noteData: { title: $title, content: $content }) {
       status
       message
     }
@@ -70,6 +89,20 @@ const NoteContextProvider: React.FC<Props> = ({ children }: Props) => {
     },
   });
   const [updateNote] = useMutation(UPDATE_NOTE);
+  const [deleteNote] = useMutation(DELETE_NOTE, {
+    update(cache, { data: { deleteNote } }) {
+      cache.modify({
+        fields: {
+          getMyNotes(existingNotes = [], { readField }) {
+            return existingNotes.filter(
+              (noteRef: Reference) =>
+                deleteNote.doc.id !== readField("id", noteRef)
+            );
+          },
+        },
+      });
+    },
+  });
 
   const handleCreateNote = async (noteData: INoteDataInput = {}) => {
     try {
@@ -79,16 +112,36 @@ const NoteContextProvider: React.FC<Props> = ({ children }: Props) => {
     }
   };
 
-  const handleUpdateNote = async (noteData: INoteDataInput) => {
+  const handleUpdateNote = async ({
+    noteID,
+    noteData,
+  }: {
+    noteID: string;
+    noteData: INoteDataInput;
+  }) => {
     try {
-      await updateNote({ variables: noteData });
+      await updateNote({ variables: { noteID, ...noteData } });
+    } catch (err) {
+      callToast(noteToast, { status: "error", message: err.message });
+    }
+  };
+
+  const handleDeleteNote = async (noteID: string) => {
+    try {
+      const { data } = await deleteNote({ variables: { noteID } });
+      callToast(noteToast, {
+        status: "info",
+        message: data.deleteNote?.message,
+      });
     } catch (err) {
       callToast(noteToast, { status: "error", message: err.message });
     }
   };
 
   return (
-    <NoteContext.Provider value={{ handleCreateNote, handleUpdateNote }}>
+    <NoteContext.Provider
+      value={{ handleCreateNote, handleUpdateNote, handleDeleteNote }}
+    >
       {children}
     </NoteContext.Provider>
   );
