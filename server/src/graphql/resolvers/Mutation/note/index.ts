@@ -40,7 +40,13 @@ export const deleteNote = async (parent: any, args: any, context: any) => {
   const { id } = args;
   const note = await Note.findById(id);
 
-  isAuthorized({ context, authorized: note?.author as string });
+  if (!note)
+    return {
+      status: "success",
+      message: "Note does not exist",
+    };
+
+  isAuthorized({ context, authorized: note?.author.toString() });
   note?.delete();
   // await Note.deleteOne({ id });
 
