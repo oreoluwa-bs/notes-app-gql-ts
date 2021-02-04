@@ -45,7 +45,7 @@ const DashboardPage = (props: DashboardProps) => {
           <Switch>
             <Route exact path={`${currentMath.path}`} component={WelcomePage} />
             <Route
-              path={`${currentMath.path}/:noteslug`}
+              path={`${currentMath.path}/note/:noteslug`}
               component={NotePage}
             />
           </Switch>
