@@ -53,6 +53,7 @@ export const deleteNote = async (parent: any, args: any, context: any) => {
   return {
     status: "success",
     message: "Note deleted",
+    doc: note,
   };
 };
 
