@@ -36,14 +36,20 @@ export const note = async (parent: any, args: any, context: any, info: any) => {
 // Get My Notes
 export const getMyNotes = async (
   parent: any,
-  arg: any,
+  args: any,
   context: any,
   info: any
 ) => {
+  const { filter = {}, sort, limit } = args;
+  if (filter?.id) {
+    filter._id = filter?.id;
+    delete filter["id"];
+  }
+
   const notePayload = isAuth(context);
   const { userId } = notePayload as any;
 
-  const note = await Note.find({ author: userId });
+  const notes = await Note.find({ author: userId }).sort(sort).limit(limit);
 
-  return note;
+  return notes;
 };
