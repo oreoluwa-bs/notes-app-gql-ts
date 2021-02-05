@@ -135,7 +135,10 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
                     size="sm"
                     aria-label="cancel search"
                     icon={<Icon as={HiX} />}
-                    onClick={() => setSearchValue("")}
+                    onClick={() => {
+                      setSearchValue("");
+                      setMyNotes(data);
+                    }}
                   />
                 </InputRightElement>
               )}
