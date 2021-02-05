@@ -12,6 +12,7 @@ import {
   Link,
   Skeleton,
   useColorModeValue,
+  useTheme,
   VisuallyHidden,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -29,7 +30,7 @@ interface SideNavProps {
 
 const GET_MY_NOTES = gql`
   query GetMyNotes {
-    getMyNotes {
+    getMyNotes(sort: "-createdAt") {
       id
       title
       slug
@@ -49,7 +50,7 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
   };
 
   const currentMatch = useRouteMatch();
-
+  const { colors } = useTheme();
   const bg = useColorModeValue("gray.100", "gray.700");
   const buttonBg = useColorModeValue("gray.100", "gray.700");
   const focusBG = useColorModeValue("white", "transparent");
@@ -58,7 +59,7 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
     <Box>
       <Box
         bg={bg}
-        height="100vh"
+        minHeight="100vh"
         w="260px"
         py="0.5rem"
         position={{ base: "absolute", lg: "fixed" }}
@@ -124,19 +125,36 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
           </FormControl>
         </Box>
 
-        {/* lINKS */}
-        <Skeleton isLoaded={!loading}>
-          <Box p="1rem">
-            {myNotes?.getMyNotes?.map(({ slug, ...note }: { slug: string }) => (
-              <SideNavLink
-                key={`note-${slug}`}
-                path={currentMatch.path}
-                slug={slug}
-                {...note}
-              />
-            ))}
-          </Box>
-        </Skeleton>
+        <Box>
+          {/* lINKS */}
+          <Skeleton isLoaded={!loading}>
+            <Box
+              p="1rem"
+              height="85vh"
+              overflowY="auto"
+              css={{
+                "&::-webkit-scrollbar": {
+                  width: "4px",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: colors.primary["base"],
+                  borderRadius: "20px",
+                },
+              }}
+            >
+              {myNotes?.getMyNotes?.map(
+                ({ slug, ...note }: { slug: string }) => (
+                  <SideNavLink
+                    key={`note-${slug}`}
+                    path={currentMatch.path}
+                    slug={slug}
+                    {...note}
+                  />
+                )
+              )}
+            </Box>
+          </Skeleton>
+        </Box>
       </Box>
       {!isOpen && isMobile && (
         <Box
