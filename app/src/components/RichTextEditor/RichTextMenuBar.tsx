@@ -106,6 +106,8 @@ const BlockStyleControls = (props: {
           key={type.label}
           label={type.name}
           aria-label={`${type.name}-tooltip`}
+          bg="secondary"
+          color="white"
         >
           {type.icon ? (
             <IconButton
@@ -144,6 +146,8 @@ const InlineStyleControls = (props: {
           key={type.label}
           label={type.label}
           aria-label={`${type.label}-tooltip`}
+          bg="secondary"
+          color="white"
         >
           {type.icon ? (
             <IconButton
