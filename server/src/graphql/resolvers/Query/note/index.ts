@@ -49,7 +49,12 @@ export const getMyNotes = async (
   const notePayload = isAuth(context);
   const { userId } = notePayload as any;
 
-  const notes = await Note.find({ author: userId }).sort(sort).limit(limit);
+  const notes = await Note.find({
+    author: userId,
+    ...filter,
+  })
+    .sort(sort)
+    .limit(limit);
 
   return notes;
 };

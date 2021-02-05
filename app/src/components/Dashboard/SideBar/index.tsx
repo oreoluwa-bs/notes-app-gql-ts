@@ -15,7 +15,7 @@ import {
   useTheme,
   VisuallyHidden,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiMenu, HiSearch, HiX } from "react-icons/hi";
 import { Link as RRLink, useRouteMatch } from "react-router-dom";
 import { NotesLogo } from "../../icons";
@@ -40,14 +40,32 @@ const GET_MY_NOTES = gql`
 `;
 
 const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
+  const [myNotes, setMyNotes] = useState({ getMyNotes: [] });
   const [searchValue, setSearchValue] = useState<undefined | string>(undefined);
-  const { loading, data: myNotes } = useQuery(GET_MY_NOTES);
+  const { loading, data } = useQuery(GET_MY_NOTES);
 
   const handleOnChangeSearchValue = (
     evt: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchValue(evt.target.value);
+    if (evt.target.value) {
+      const newNotes = myNotes.getMyNotes.filter(
+        ({ content = "" }: { content: string | null }) => {
+          if (!content) {
+            return false;
+          }
+          return content.toLowerCase().includes(evt.target.value.toLowerCase());
+        }
+      );
+      setMyNotes({ getMyNotes: newNotes });
+    } else {
+      setMyNotes(data);
+    }
   };
+
+  useEffect(() => {
+    setMyNotes(data);
+  }, [data]);
 
   const currentMatch = useRouteMatch();
   const { colors } = useTheme();
