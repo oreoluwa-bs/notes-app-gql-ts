@@ -33,6 +33,7 @@ interface ISignInInput {
 }
 
 const SignInPage = (props: SignInProps) => {
+  const { routeTo = null } = props.location.state as any;
   const { getAccessToken, handleSignIn } = useContext(
     AuthContext
   ) as AuthContextType;
@@ -47,7 +48,8 @@ const SignInPage = (props: SignInProps) => {
     props.history.push("/app");
   };
 
-  if (getAccessToken()) return <Redirect to={{ pathname: "/app" }} />;
+  if (getAccessToken())
+    return <Redirect to={{ pathname: routeTo ?? "/app" }} />;
 
   return (
     <>
