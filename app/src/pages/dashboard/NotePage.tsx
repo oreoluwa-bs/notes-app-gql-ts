@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { Box, Button } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import RichTextEditor from "../../components/RichTextEditor";
 import { NoteContext, NoteContextType } from "../../store/context/note";
 
 interface NotePageProps {
@@ -44,8 +45,16 @@ const NotePage = (props: RouteComponentProps<NotePageProps>) => {
   return (
     <Box minHeight="100vh" py="30px">
       {/* Text Editor */}
-      <Button onClick={handleUpdate}>UpdateNote</Button>
-      <Button onClick={handleDelete}>DeleteNote</Button>
+      <RichTextEditor
+        actions={[
+          <Button key="up" onClick={handleUpdate}>
+            UpdateNote
+          </Button>,
+          <Button key="del-btn" onClick={handleDelete}>
+            DeleteNote
+          </Button>,
+        ]}
+      />
     </Box>
   );
 };
