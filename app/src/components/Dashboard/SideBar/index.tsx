@@ -20,6 +20,7 @@ import { HiMenu, HiSearch, HiX } from "react-icons/hi";
 import { Link as RRLink, useRouteMatch } from "react-router-dom";
 import { NotesLogo } from "../../icons";
 import SideNavLink from "./SideNavLink";
+import SideNavUserActions from "./SideNavUserActions";
 
 interface SideNavProps {
   isMobile: boolean;
@@ -151,7 +152,7 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
           <Skeleton isLoaded={!loading}>
             <Box
               p="1rem"
-              height="85vh"
+              height="80vh"
               overflowY="auto"
               css={{
                 "&::-webkit-scrollbar": {
@@ -175,6 +176,10 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
               )}
             </Box>
           </Skeleton>
+        </Box>
+
+        <Box alignSelf="center">
+          <SideNavUserActions isMobile={isMobile} />
         </Box>
       </Box>
       {!isOpen && isMobile && (

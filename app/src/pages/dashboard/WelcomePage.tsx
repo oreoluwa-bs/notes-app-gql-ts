@@ -1,7 +1,6 @@
 import { Box, Button, Heading, Icon, Text, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { HiPlus } from "react-icons/hi";
-import { AccountSettings } from "../../components/Dashboard";
 import { NoteContext, NoteContextType } from "../../store/context/note";
 
 interface WelcomeProps {}
@@ -10,7 +9,6 @@ const WelcomePage = (props: WelcomeProps) => {
   const { handleCreateNote } = useContext(NoteContext) as NoteContextType;
   return (
     <Box minHeight="100vh" py="30px">
-      <AccountSettings />
       <Box width={{ lg: "40%" }}>
         <VStack spacing={4} alignItems="flex-start">
           <Heading>Welcome</Heading>
