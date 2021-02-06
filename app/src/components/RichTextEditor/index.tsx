@@ -1,17 +1,23 @@
 import { Box } from "@chakra-ui/react";
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { getBlockStyle, styleMap } from "./RichTextHelpers";
 import RichTextMenuBar from "./RichTextMenuBar";
 
 interface Props {
+  editorState?: EditorState;
+  setEditorState: (editorState: EditorState) => void;
   actions?: React.ReactNode[];
+  onSave: () => void;
 }
 
-const RichTextEditor = ({ actions = [] }: Props) => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+const RichTextEditor = ({
+  editorState = EditorState.createEmpty(),
+  setEditorState,
+  actions = [],
+  onSave,
+}: Props) => {
   const EditorRef = useRef({}) as React.RefObject<Editor>;
-
   useEffect(() => {
     EditorRef?.current?.focus();
   });
@@ -41,7 +47,13 @@ const RichTextEditor = ({ actions = [] }: Props) => {
   };
   return (
     <Box minHeight="50vh">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mt="0.7rem"
+        mb="2rem"
+      >
         <RichTextMenuBar
           editorState={editorState}
           handleOnChange={handleOnChange}
@@ -57,6 +69,7 @@ const RichTextEditor = ({ actions = [] }: Props) => {
         customStyleMap={styleMap}
         blockStyleFn={getBlockStyle}
         spellCheck={true}
+        onBlur={onSave}
       />
     </Box>
   );

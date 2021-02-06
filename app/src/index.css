@@ -1,13 +1,113 @@
+:root {
+  --primary-color: #52ad9c;
+  --secondary-color: rgb(138, 79, 255);
+  --rich-text-blockquote-color: var(--secondary-color);
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/* https://gist.github.com/tuzz/3331384 */
+/* RichEditor - Heading */
+.RichEditor-heading {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative;
+}
+.RichEditor-h1 {
+  font-size: 2rem;
+}
+.RichEditor-h2 {
+  font-size: 1.5rem;
+}
+.RichEditor-h3 {
+  font-size: 1rem;
+}
+
+/* RichEditor - Blockquote  */
+.RichEditor-blockquote {
+  background: rgba(0, 0, 0, 0.1);
+  /* border-left: 5px solid rgba(var(--rich-text-blockquote-color), 1); */
+  padding: 5px 15px;
+  border-left: 4px solid #dddddd;
+}
+.RichEditor-blockquote > :first-child {
+  margin-top: 0;
+}
+.RichEditor-blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* RichEditor - List */
+.RichEditor-ol li,
+.RichEditor-ul li {
+  display: inline-block;
+}
+.RichEditor-ul,
+.RichEditor-ol {
+  margin-left: 5px;
+  padding-left: 10px;
+}
+.RichEditor-ul :first-child,
+.RichEditor-ol :first-child {
+  margin-top: 0;
+}
+.RichEditor-ul :last-child,
+.RichEditor-ol :last-child {
+  margin-bottom: 0;
+}
+
+/* RichEditor - Code */
+.RichEditor-code,
+.RichEditor-tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+.RichEditor-pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+.RichEditor-highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+.RichEditor-pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+.RichEditor-pre code,
+.RichEditor-pre tt {
+  background-color: transparent;
+  border: none;
 }

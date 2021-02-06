@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { Box, Button } from "@chakra-ui/react";
+import { EditorState } from "draft-js";
 import { useContext, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import RichTextEditor from "../../components/RichTextEditor";
@@ -21,6 +22,8 @@ const GET_NOTE = gql`
 `;
 
 const NotePage = (props: RouteComponentProps<NotePageProps>) => {
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
   const { history, match } = props;
   const { handleUpdateNote, handleDeleteNote } = useContext(
     NoteContext
@@ -29,9 +32,8 @@ const NotePage = (props: RouteComponentProps<NotePageProps>) => {
     variables: { slug: match.params?.noteslug },
   });
 
-  const [noteData] = useState({ content: "Content" });
-
   const handleUpdate = async () => {
+    const noteData = {};
     await handleUpdateNote({ noteID: data.note.id, noteData });
     await refetch();
   };
@@ -46,6 +48,8 @@ const NotePage = (props: RouteComponentProps<NotePageProps>) => {
     <Box minHeight="100vh" py="30px">
       {/* Text Editor */}
       <RichTextEditor
+        editorState={editorState}
+        setEditorState={setEditorState}
         actions={[
           <Button key="up" onClick={handleUpdate}>
             UpdateNote
@@ -54,6 +58,9 @@ const NotePage = (props: RouteComponentProps<NotePageProps>) => {
             DeleteNote
           </Button>,
         ]}
+        onSave={() => {
+          console.log("save note");
+        }}
       />
     </Box>
   );
