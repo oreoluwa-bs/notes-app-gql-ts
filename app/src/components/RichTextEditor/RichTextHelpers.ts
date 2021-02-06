@@ -3,7 +3,7 @@ import { ContentBlock } from "draft-js";
 export const styleMap = {
   CODE: {
     backgroundColor: "rgba(0, 0, 0, 0.05)",
-    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+    fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, "Courier New"',
     fontSize: 16,
     padding: 6,
   },

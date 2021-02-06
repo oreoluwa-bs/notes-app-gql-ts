@@ -1,10 +1,21 @@
 import { gql, useQuery } from "@apollo/client";
-import { Box, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Icon,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Tooltip,
+} from "@chakra-ui/react";
 import { EditorState } from "draft-js";
 import { useContext, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import RichTextEditor from "../../components/RichTextEditor";
 import { NoteContext, NoteContextType } from "../../store/context/note";
+import { FiMoreHorizontal } from "react-icons/fi";
+import { HiTrash } from "react-icons/hi";
 
 interface NotePageProps {
   noteslug?: string;
@@ -51,12 +62,26 @@ const NotePage = (props: RouteComponentProps<NotePageProps>) => {
         editorState={editorState}
         setEditorState={setEditorState}
         actions={[
-          <Button key="up" onClick={handleUpdate}>
-            UpdateNote
-          </Button>,
-          <Button key="del-btn" onClick={handleDelete}>
-            DeleteNote
-          </Button>,
+          <Menu key="more options">
+            <Tooltip label="More Options">
+              <MenuButton
+                as={IconButton}
+                aria-label="More"
+                icon={<Icon as={FiMoreHorizontal} />}
+              />
+            </Tooltip>
+            <MenuList>
+              <MenuItem icon={<Icon as={HiTrash} />} onClick={handleDelete}>
+                Delete Note
+              </MenuItem>
+              <MenuItem icon={<Icon as={HiTrash} />} onClick={handleUpdate}>
+                Update Note
+              </MenuItem>
+              {/* <MenuItem command="⌘N">New Window</MenuItem>
+              <MenuItem command="⌘⇧N">Open Closed Tab</MenuItem>
+              <MenuItem command="⌘O">Open File...</MenuItem> */}
+            </MenuList>
+          </Menu>,
         ]}
         onSave={() => {
           console.log("save note");
