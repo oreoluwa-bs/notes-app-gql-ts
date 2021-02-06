@@ -20,7 +20,7 @@ const RichTextEditor = ({
   const EditorRef = useRef({}) as React.RefObject<Editor>;
   useEffect(() => {
     EditorRef?.current?.focus();
-  });
+  }, []);
 
   const handleOnChange = (newEditorState: EditorState) => {
     setEditorState(newEditorState);
