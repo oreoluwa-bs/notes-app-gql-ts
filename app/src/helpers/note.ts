@@ -16,10 +16,9 @@ export const transformNoteTitle = (content: ContentState) => {
 
 export const transformContent = (content: string) => {
   const curr = convertFromRaw(JSON.parse(content));
-  const firstBlockKey = curr.getFirstBlock().getKey();
-  const contentText = curr.getBlockAfter(firstBlockKey)?.getText() ?? "";
-
-  return contentText;
+  const firstBlockText = curr.getFirstBlock().getText();
+  const contentText = curr.getPlainText(" ").split(firstBlockText).join("");
+  return contentText.trim();
 };
 
 export const transformNoteData = (editorState: EditorState) => {
