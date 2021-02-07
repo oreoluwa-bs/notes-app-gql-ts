@@ -9,35 +9,14 @@ import {
   MenuList,
   Tooltip,
 } from "@chakra-ui/react";
-import {
-  ContentState,
-  convertFromRaw,
-  convertToRaw,
-  EditorState,
-} from "draft-js";
+import { convertFromRaw, EditorState } from "draft-js";
 import { useContext, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import RichTextEditor from "../../components/RichTextEditor";
 import { NoteContext, NoteContextType } from "../../store/context/note";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { HiTrash } from "react-icons/hi";
-
-const transformEditorState = (content: ContentState) =>
-  JSON.stringify(convertToRaw(content));
-
-const transformNoteTitle = (content: ContentState) => {
-  const title = content.getFirstBlock().getText();
-  return title;
-};
-
-const transformNoteData = (editorState: EditorState) => {
-  const currentContent = editorState.getCurrentContent();
-
-  return {
-    title: transformNoteTitle(currentContent),
-    content: transformEditorState(currentContent),
-  };
-};
+import { transformNoteData } from "../../helpers/note";
 
 interface NotePageProps {
   noteslug?: string;
