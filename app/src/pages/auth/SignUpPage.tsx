@@ -33,7 +33,8 @@ interface ISignUpInput {
 }
 
 const SignUpPage = (props: SignUpProps) => {
-  const { routeTo = null } = props.location.state as any;
+  const locationState = props.location.state as any;
+  const routeTo = locationState?.routeTo;
   const { getAccessToken, handleSignUp } = useContext(
     AuthContext
   ) as AuthContextType;
