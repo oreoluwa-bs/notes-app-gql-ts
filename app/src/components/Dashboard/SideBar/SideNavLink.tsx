@@ -7,6 +7,7 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { NavLink as RRNavLink } from "react-router-dom";
+import { transformContent } from "../../../helpers/note";
 
 interface Props {
   path: string;
@@ -26,6 +27,8 @@ const SideNavLink = ({
   const bg = useColorModeValue(colors.gray["200"], colors.teal["700"]);
   const textColor = useColorModeValue(colors.primary["base"], colors.white);
 
+  const contentText = transformContent(content);
+
   return (
     <Link
       to={`${path}/note/${slug}`}
@@ -43,7 +46,7 @@ const SideNavLink = ({
     >
       <Box p="1rem">
         <Heading fontSize="2xl">{title}</Heading>
-        <Text noOfLines={1}>{content}</Text>
+        <Text noOfLines={1}>{contentText}</Text>
       </Box>
     </Link>
     //   <Link
