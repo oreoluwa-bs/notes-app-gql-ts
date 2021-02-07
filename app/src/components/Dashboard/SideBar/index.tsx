@@ -43,9 +43,9 @@ const GET_MY_NOTES = gql`
 
 const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
   const [myNotes, setMyNotes] = useState({ getMyNotes: [] });
-  const [searchValue, setSearchValue] = useControllableState<
-    string | undefined
-  >({ defaultValue: undefined });
+  const [searchValue, setSearchValue] = useControllableState<string>({
+    defaultValue: "",
+  });
   const { loading, data } = useQuery(GET_MY_NOTES);
 
   const handleOnChangeSearchValue = (
