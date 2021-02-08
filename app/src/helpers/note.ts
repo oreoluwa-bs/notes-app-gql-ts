@@ -10,14 +10,23 @@ export const transformEditorState = (content: ContentState) => {
 };
 
 export const transformNoteTitle = (content: ContentState) => {
-  const title = content.getFirstBlock().getText();
+  const title =
+    content
+      .getBlocksAsArray()
+      .find((block) => block.getText().trim().length > 0)
+      ?.getText() || "Untitled Note";
   return title;
 };
 
 export const transformContent = (content: string) => {
   const curr = convertFromRaw(JSON.parse(content));
-  const firstBlockText = curr.getFirstBlock().getText();
-  const contentText = curr.getPlainText(" ").split(firstBlockText).join("");
+  const title = transformNoteTitle(curr);
+  const contentText = curr
+    .getPlainText(" ")
+    .trim()
+    .split(title)
+    .join("")
+    .trim();
   return contentText.trim();
 };
 

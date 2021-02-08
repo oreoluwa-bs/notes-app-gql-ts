@@ -32,7 +32,7 @@ interface SideNavProps {
 
 const GET_MY_NOTES = gql`
   query GetMyNotes {
-    getMyNotes(sort: "-createdAt") {
+    getMyNotes(sort: "-updatedAt") {
       id
       title
       slug
@@ -68,7 +68,12 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
   };
 
   useEffect(() => {
-    setMyNotes(data);
+    let mounted = true;
+    if (mounted) setMyNotes(data);
+
+    return () => {
+      mounted = false;
+    };
   }, [data]);
 
   const currentMatch = useRouteMatch();
@@ -84,12 +89,12 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
         height="100vh"
         w="260px"
         py="0.5rem"
-        position={{ base: "absolute", lg: "fixed" }}
+        position={{ base: "fixed" }}
         transition="all 0.5s"
         transform={!isOpen ? "translateX(0)" : "translateX(-250px)"}
         display="flex"
         flexDirection="column"
-        zIndex={1}
+        zIndex={2}
       >
         {/* Util */}
         <Box>

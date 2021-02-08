@@ -58,6 +58,9 @@ const UPDATE_NOTE = gql`
     updateNote(id: $noteID, noteData: { title: $title, content: $content }) {
       status
       message
+      doc {
+        id
+      }
     }
   }
 `;
@@ -88,7 +91,21 @@ const NoteContextProvider: React.FC<Props> = ({ children }: Props) => {
       });
     },
   });
-  const [updateNote] = useMutation(UPDATE_NOTE);
+  const [updateNote] = useMutation(UPDATE_NOTE, {
+    update(cache, { data: { updateNote } }) {
+      cache.modify({
+        fields: {
+          getMyNotes(existingNotes = [], { readField }) {
+            const noteRef = existingNotes.find(
+              (noteRef: Reference) =>
+                updateNote.doc.id === readField("id", noteRef)
+            );
+            return new Set([noteRef, ...existingNotes]);
+          },
+        },
+      });
+    },
+  });
   const [deleteNote] = useMutation(DELETE_NOTE, {
     update(cache, { data: { deleteNote } }) {
       cache.modify({

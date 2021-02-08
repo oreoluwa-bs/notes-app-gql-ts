@@ -7,6 +7,7 @@ const databaseConnection = connect(DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+  useFindAndModify: false,
 })
   .then(() => {
     // eslint-disable-next-line no-console

@@ -25,17 +25,16 @@ const noteSchema: Schema<INote> = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-      select: false,
-    },
     deletedAt: {
       type: Date,
       select: false,
     },
   },
-  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    timestamps: true,
+  }
 );
 
 noteSchema.pre("save", function (next) {
