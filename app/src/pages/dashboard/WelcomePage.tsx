@@ -10,7 +10,7 @@ const WelcomePage = (props: RouteComponentProps<WelcomeProps>) => {
   const { history } = props;
   const { handleCreateNote } = useContext(NoteContext) as NoteContextType;
   return (
-    <Box minHeight="100vh" py="30px">
+    <Box minHeight="100vh" p="35px">
       <Box width={{ lg: "40%" }}>
         <VStack spacing={4} alignItems="flex-start">
           <Heading>Welcome</Heading>

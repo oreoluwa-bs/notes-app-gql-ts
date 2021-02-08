@@ -40,7 +40,6 @@ const DashboardPage = (props: DashboardProps) => {
             lg: isSideNavOpen ? "calc(100% - 10px)" : "calc(100% - 260px)",
           }}
           transition="width 0.55s"
-          px="30px"
         >
           <Switch>
             <Route exact path={`${currentMath.path}`} component={WelcomePage} />
