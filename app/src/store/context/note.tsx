@@ -9,7 +9,7 @@ interface INoteDataInput {
 }
 
 export type NoteContextType = {
-  handleCreateNote: (noteData?: INoteDataInput) => Promise<void>;
+  handleCreateNote: (noteData?: INoteDataInput) => Promise<any>;
   handleUpdateNote: ({
     noteID,
     noteData,
@@ -106,7 +106,8 @@ const NoteContextProvider: React.FC<Props> = ({ children }: Props) => {
 
   const handleCreateNote = async (noteData: INoteDataInput = {}) => {
     try {
-      await createNote({ variables: noteData });
+      const { data } = await createNote({ variables: noteData });
+      return data.createNote;
     } catch (err) {
       callToast(noteToast, { status: "error", message: err.message });
     }

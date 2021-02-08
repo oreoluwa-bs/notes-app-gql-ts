@@ -1,11 +1,13 @@
 import { Box, Button, Heading, Icon, Text, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { HiPlus } from "react-icons/hi";
+import { RouteComponentProps } from "react-router-dom";
 import { NoteContext, NoteContextType } from "../../store/context/note";
 
 interface WelcomeProps {}
 
-const WelcomePage = (props: WelcomeProps) => {
+const WelcomePage = (props: RouteComponentProps<WelcomeProps>) => {
+  const { history } = props;
   const { handleCreateNote } = useContext(NoteContext) as NoteContextType;
   return (
     <Box minHeight="100vh" py="30px">
@@ -23,7 +25,8 @@ const WelcomePage = (props: WelcomeProps) => {
             bgColor="primary.base"
             colorScheme="green"
             onClick={async () => {
-              await handleCreateNote();
+              const res = await handleCreateNote();
+              history.push(`/app/note/${res.doc.slug}`);
             }}
           >
             Create a new note

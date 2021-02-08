@@ -59,6 +59,8 @@ const NotePage = (props: RouteComponentProps<NotePageProps>) => {
     if (data?.note?.content) {
       const rawContent = convertFromRaw(JSON.parse(data.note.content));
       setEditorState(EditorState.createWithContent(rawContent));
+    } else {
+      setEditorState(EditorState.createEmpty());
     }
   }, [data?.note]);
 
