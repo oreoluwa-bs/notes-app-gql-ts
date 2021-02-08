@@ -17,7 +17,7 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import RichTextEditor from "../../components/RichTextEditor";
 import { NoteContext, NoteContextType } from "../../store/context/note";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { HiTrash } from "react-icons/hi";
+import { HiDocumentDownload, HiTrash } from "react-icons/hi";
 import { transformNoteData } from "../../helpers/note";
 
 interface NotePageProps {
@@ -99,6 +99,30 @@ const NotePage = ({ isSideNavOpen }: NotePageProps) => {
               />
             </Tooltip>
             <MenuList>
+              <MenuItem
+                icon={<Icon as={HiDocumentDownload} />}
+                onClick={() => {
+                  const element = document.createElement("a");
+
+                  const dataa = editorState
+                    .getCurrentContent()
+                    .getPlainText("")
+                    .split(" ")
+                    .join(" ");
+
+                  const file = new Blob([dataa], {
+                    type: "text/plain",
+                  });
+
+                  element.href = URL.createObjectURL(file);
+                  element.download = data.note.title;
+                  document.body.appendChild(element);
+                  element.click();
+                  console.log(dataa);
+                }}
+              >
+                Download Note as txt
+              </MenuItem>
               <MenuItem icon={<Icon as={HiTrash} />} onClick={handleDelete}>
                 Delete Note
               </MenuItem>
