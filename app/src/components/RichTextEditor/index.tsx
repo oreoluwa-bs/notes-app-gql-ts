@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
 import { useEffect, useRef } from "react";
 import { getBlockStyle, styleMap } from "./RichTextHelpers";
@@ -9,6 +9,7 @@ interface Props {
   setEditorState: (editorState: EditorState) => void;
   actions?: React.ReactNode[];
   onSave: () => void;
+  isSideNavOpen?: boolean;
 }
 
 const RichTextEditor = ({
@@ -16,6 +17,7 @@ const RichTextEditor = ({
   setEditorState,
   actions = [],
   onSave,
+  isSideNavOpen = true,
 }: Props) => {
   const EditorRef = useRef({}) as React.RefObject<Editor>;
   useEffect(() => {
@@ -45,32 +47,47 @@ const RichTextEditor = ({
     }
     return getDefaultKeyBinding(e as any);
   };
+
+  const bg = useColorModeValue("white", "gray.800");
+
   return (
-    <Box minHeight="50vh">
+    <Box minHeight="80vh">
       <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems={{ base: "flex-end", sm: "center" }}
-        mt="0.7rem"
-        mb="2rem"
+        bg={bg}
+        p="30px"
+        position="fixed"
+        width={{
+          base: "100%",
+          lg: isSideNavOpen ? "calc(100% - 10px)" : "calc(100% - 260px)",
+        }}
+        transition="width 0.55s"
+        zIndex={1}
       >
-        <RichTextMenuBar
-          editorState={editorState}
-          handleOnChange={handleOnChange}
-        />
-        <Box>{actions.map((item) => item)}</Box>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems={{ base: "start", sm: "center" }}
+        >
+          <RichTextMenuBar
+            editorState={editorState}
+            handleOnChange={handleOnChange}
+          />
+          <Box>{actions.map((item) => item)}</Box>
+        </Box>
       </Box>
-      <Editor
-        ref={EditorRef}
-        editorState={editorState}
-        onChange={handleOnChange}
-        handleKeyCommand={handleKeyCommand}
-        keyBindingFn={mapKeyToEditorCommand}
-        customStyleMap={styleMap}
-        blockStyleFn={getBlockStyle}
-        spellCheck={true}
-        onBlur={onSave}
-      />
+      <Box pt="28" px="35px">
+        <Editor
+          ref={EditorRef}
+          editorState={editorState}
+          onChange={handleOnChange}
+          handleKeyCommand={handleKeyCommand}
+          keyBindingFn={mapKeyToEditorCommand}
+          customStyleMap={styleMap}
+          blockStyleFn={getBlockStyle}
+          spellCheck={true}
+          onBlur={onSave}
+        />
+      </Box>
     </Box>
   );
 };

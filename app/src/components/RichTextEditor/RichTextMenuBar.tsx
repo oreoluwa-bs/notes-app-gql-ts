@@ -67,10 +67,12 @@ const RichTextMenuBar = (props: Props) => {
   };
 
   return (
-    <Box>
+    <Box flex="1">
       <Stack
         direction={{ base: "column", sm: "row" }}
-        divider={<StackDivider />}
+        divider={
+          <StackDivider visibility={{ base: "hidden", lg: "visible" }} />
+        }
         // spacing="0.4rem"
       >
         <BlockStyleControls

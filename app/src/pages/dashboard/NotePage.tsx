@@ -1,17 +1,19 @@
 import { gql, useQuery } from "@apollo/client";
 import {
   Box,
+  Center,
   Icon,
   IconButton,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Spinner,
   Tooltip,
 } from "@chakra-ui/react";
 import { convertFromRaw, EditorState } from "draft-js";
 import { useContext, useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import RichTextEditor from "../../components/RichTextEditor";
 import { NoteContext, NoteContextType } from "../../store/context/note";
 import { FiMoreHorizontal } from "react-icons/fi";
@@ -20,6 +22,7 @@ import { transformNoteData } from "../../helpers/note";
 
 interface NotePageProps {
   noteslug?: string;
+  isSideNavOpen?: boolean;
 }
 
 const GET_NOTE = gql`
@@ -33,8 +36,11 @@ const GET_NOTE = gql`
   }
 `;
 
-const NotePage = (props: RouteComponentProps<NotePageProps>) => {
-  const { history, match } = props;
+const NotePage = ({ isSideNavOpen }: NotePageProps) => {
+  // const { history, match } = props;
+  const history = useHistory();
+  const match = useRouteMatch() as any;
+
   const { handleUpdateNote, handleDeleteNote } = useContext(
     NoteContext
   ) as NoteContextType;
@@ -64,13 +70,25 @@ const NotePage = (props: RouteComponentProps<NotePageProps>) => {
     }
   }, [data?.note]);
 
-  if (loading) return null;
+  if (loading)
+    return (
+      <Center height="100vh">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Center>
+    );
   return (
-    <Box minHeight="100vh" py="30px">
+    <Box minHeight="100vh" pb="30px" width="100%">
       {/* Text Editor */}
       <RichTextEditor
         editorState={editorState}
         setEditorState={setEditorState}
+        isSideNavOpen={isSideNavOpen}
         actions={[
           <Menu key="more options">
             <Tooltip label="More Options">

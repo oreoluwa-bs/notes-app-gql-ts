@@ -34,7 +34,6 @@ const DashboardPage = (props: DashboardProps) => {
       <Box flex="1" bg="secondary" height="100vh">
         <Box
           bg={bg}
-          height="inherit"
           ml="auto"
           width={{
             lg: isSideNavOpen ? "calc(100% - 10px)" : "calc(100% - 260px)",
@@ -45,7 +44,8 @@ const DashboardPage = (props: DashboardProps) => {
             <Route exact path={`${currentMath.path}`} component={WelcomePage} />
             <Route
               path={`${currentMath.path}/note/:noteslug`}
-              component={NotePage}
+              // component={NotePage}
+              render={() => <NotePage isSideNavOpen={isSideNavOpen} />}
             />
           </Switch>
         </Box>
