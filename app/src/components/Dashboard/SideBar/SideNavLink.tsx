@@ -14,6 +14,7 @@ interface Props {
   slug?: string;
   title?: string;
   content?: string;
+  onClick?: () => void;
 }
 
 const SideNavLink = ({
@@ -21,17 +22,19 @@ const SideNavLink = ({
   slug = "slug",
   title = "Title",
   content = "content",
+  onClick = () => {},
 }: Props) => {
   const { colors } = useTheme();
 
   const bg = useColorModeValue(colors.gray["200"], colors.teal["700"]);
   const textColor = useColorModeValue(colors.primary["base"], colors.white);
 
-  const contentText = transformContent(content);
+  const contentText = content ? transformContent(content) : "";
 
   return (
     <Link
       to={`${path}/note/${slug}`}
+      onClick={onClick}
       as={RRNavLink}
       display="block"
       borderRadius="lg"

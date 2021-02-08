@@ -50,7 +50,7 @@ const RichTextEditor = ({
       <Box
         display="flex"
         justifyContent="space-between"
-        alignItems="center"
+        alignItems={{ base: "flex-end", sm: "center" }}
         mt="0.7rem"
         mb="2rem"
       >

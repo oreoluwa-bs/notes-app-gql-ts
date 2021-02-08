@@ -81,7 +81,7 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
     <Box>
       <Box
         bg={bg}
-        minHeight="100vh"
+        height="100vh"
         w="260px"
         py="0.5rem"
         position={{ base: "absolute", lg: "fixed" }}
@@ -98,6 +98,7 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
             to="/app"
             display="inline-block"
             _focus={{ boxShadow: "none", outline: "none" }}
+            onClick={isMobile ? onOpen : () => {}}
           >
             <NotesLogo color="primary.base" fontSize="50px" />
           </Link>
@@ -150,29 +151,30 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
           </FormControl>
         </Box>
 
-        <Box>
+        <Box
+          py="1rem"
+          flex="1"
+          overflowY="auto"
+          css={{
+            "&::-webkit-scrollbar": {
+              width: "4px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: colors.primary["base"],
+              borderRadius: "20px",
+            },
+          }}
+        >
           {/* lINKS */}
           <Skeleton isLoaded={!loading}>
-            <Box
-              p="1rem"
-              height="80vh"
-              overflowY="auto"
-              css={{
-                "&::-webkit-scrollbar": {
-                  width: "4px",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  backgroundColor: colors.primary["base"],
-                  borderRadius: "20px",
-                },
-              }}
-            >
+            <Box px="1rem">
               {myNotes?.getMyNotes?.map(
                 ({ slug, ...note }: { slug: string }) => (
                   <SideNavLink
                     key={`note-${slug}`}
                     path={currentMatch.path}
                     slug={slug}
+                    onClick={isMobile ? onOpen : undefined}
                     {...note}
                   />
                 )
