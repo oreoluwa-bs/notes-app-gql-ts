@@ -1,6 +1,7 @@
 import { gql, Reference, useMutation } from "@apollo/client";
 import { useToast } from "@chakra-ui/react";
 import { createContext } from "react";
+import { CREATE_NOTE, UPDATE_NOTE, DELETE_NOTE } from "../../graphql/note";
 import { callToast } from "../../helpers/callToast";
 
 interface INoteDataInput {
@@ -25,45 +26,6 @@ export const NoteContext = createContext({});
 interface Props {
   children: React.ReactNode;
 }
-
-const CREATE_NOTE = gql`
-  mutation CreateNote($title: String, $content: String) {
-    createNote(noteData: { title: $title, content: $content }) {
-      status
-      message
-      doc {
-        id
-        slug
-        title
-        content
-      }
-    }
-  }
-`;
-
-const DELETE_NOTE = gql`
-  mutation DeleteNote($noteID: ID!) {
-    deleteNote(id: $noteID) {
-      status
-      message
-      doc {
-        id
-      }
-    }
-  }
-`;
-
-const UPDATE_NOTE = gql`
-  mutation UpdateNote($noteID: ID!, $title: String, $content: String) {
-    updateNote(id: $noteID, noteData: { title: $title, content: $content }) {
-      status
-      message
-      doc {
-        id
-      }
-    }
-  }
-`;
 
 const NoteContextProvider: React.FC<Props> = ({ children }: Props) => {
   const noteToast = useToast();

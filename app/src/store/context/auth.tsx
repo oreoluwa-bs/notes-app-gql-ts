@@ -1,6 +1,12 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useToast } from "@chakra-ui/react";
 import { createContext } from "react";
+import {
+  REFRESH_MY_TOKEN,
+  SIGN_IN,
+  SIGN_OUT_USER,
+  SIGN_UP,
+} from "../../graphql/user";
 import { callToast } from "../../helpers/callToast";
 import { setAccessToken, getAccessToken } from "../global/accessToken";
 
@@ -27,42 +33,6 @@ export const AuthContext = createContext({});
 interface Props {
   children: React.ReactNode;
 }
-
-const SIGN_IN = gql`
-  mutation SignIn($email: String!, $password: String!) {
-    signInUser(credentials: { email: $email, password: $password }) {
-      status
-      message
-      accessToken
-    }
-  }
-`;
-
-const SIGN_UP = gql`
-  mutation SignUp($email: String!, $password: String!) {
-    signUpUser(credentials: { email: $email, password: $password }) {
-      status
-      message
-      accessToken
-    }
-  }
-`;
-
-export const REFRESH_MY_TOKEN = gql`
-  mutation RefreshMyToken {
-    refreshMyToken {
-      status
-      message
-      accessToken
-    }
-  }
-`;
-
-export const SIGN_OUT_USER = gql`
-  mutation SignOutUser {
-    signOutUser
-  }
-`;
 
 const AuthContextProvider: React.FC<Props> = ({ children }: Props) => {
   const authToast = useToast();
