@@ -1,3 +1,3 @@
-export { SignInPage, SignUpPage } from "./auth";
+export { SignInPage, SignUpPage, DemoPage } from "./auth";
 
 export { default as DashboardPage } from "./dashboard";
