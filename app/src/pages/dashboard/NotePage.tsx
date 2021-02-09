@@ -62,12 +62,19 @@ const NotePage = ({ isSideNavOpen }: NotePageProps) => {
   };
 
   useEffect(() => {
-    if (data?.note?.content) {
-      const rawContent = convertFromRaw(JSON.parse(data.note.content));
-      setEditorState(EditorState.createWithContent(rawContent));
-    } else {
-      setEditorState(EditorState.createEmpty());
+    let mounted = true;
+
+    if (mounted) {
+      if (data?.note?.content) {
+        const rawContent = convertFromRaw(JSON.parse(data.note.content));
+        setEditorState(EditorState.createWithContent(rawContent));
+      } else {
+        setEditorState(EditorState.createEmpty());
+      }
     }
+    return () => {
+      mounted = false;
+    };
   }, [data?.note]);
 
   if (loading)
@@ -123,6 +130,33 @@ const NotePage = ({ isSideNavOpen }: NotePageProps) => {
               >
                 Download Note as txt
               </MenuItem>
+              <MenuItem
+                icon={<Icon as={HiTrash} />}
+                onClick={() => {
+                  if ("speechSynthesis" in window) {
+                    const utterText = editorState
+                      .getCurrentContent()
+                      .getPlainText("");
+
+                    const synth = window.speechSynthesis;
+                    // Speech Synthesis supported 🎉
+                    const voices = synth.getVoices();
+
+                    const msg = new SpeechSynthesisUtterance();
+                    msg.text = utterText;
+
+                    msg.voice = voices[4];
+                    msg.volume = 1;
+                    msg.rate = 0.8;
+
+                    synth.speak(msg);
+                  } else {
+                    alert("Sorry, your browser doesn't support this feature!");
+                  }
+                }}
+              >
+                Read Note Aloud
+              </MenuItem>
               <MenuItem icon={<Icon as={HiTrash} />} onClick={handleDelete}>
                 Delete Note
               </MenuItem>
@@ -144,3 +178,33 @@ const NotePage = ({ isSideNavOpen }: NotePageProps) => {
 };
 
 export default NotePage;
+
+// interface IProps {
+//   key?: string;
+//   utterText: string;
+// }
+
+// const SpeechComp = (props: IProps) => {
+//   // const [synth, setSynth] = useState<SpeechSynthesis>();
+//   const { utterText } = props;
+
+//   useEffect(() => {
+//     const voices = synth.getVoices();
+
+//     const msg = new SpeechSynthesisUtterance();
+//     msg.text = utterText;
+
+//     msg.voice = voices[4];
+//     msg.volume = 1;
+//     msg.rate = 0.8;
+
+//     synth.speak(msg);
+//     // msg.onstart = (ev: SpeechSynthesisEvent) => {
+//     //   setSyncState(true);
+//     // };
+//     // msg.onend = (ev: SpeechSynthesisEvent) => {};
+//   }, [synth, utterText]);
+//   return <Box display="inline-block">speak</Box>;
+// };
+
+// export default SpeechComp;
