@@ -55,3 +55,17 @@ const DashboardPage = (props: DashboardProps) => {
 };
 
 export default DashboardPage;
+
+// Prevent saving webpage
+document.onkeydown = function (e) {
+  e = e || window.event;
+  if (!e.ctrlKey) return;
+
+  const key = e.key;
+  switch (key) {
+    case "s":
+      e.preventDefault();
+      e.stopPropagation();
+      break;
+  }
+};

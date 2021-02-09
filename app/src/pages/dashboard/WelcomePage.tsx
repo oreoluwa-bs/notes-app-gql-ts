@@ -1,5 +1,5 @@
 import { Box, Button, Heading, Icon, Text, VStack } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { RouteComponentProps } from "react-router-dom";
 import { NoteContext, NoteContextType } from "../../store/context/note";
@@ -7,6 +7,7 @@ import { NoteContext, NoteContextType } from "../../store/context/note";
 interface WelcomeProps {}
 
 const WelcomePage = (props: RouteComponentProps<WelcomeProps>) => {
+  const [isCreateNoteLoading, setIsCreateNoteLoading] = useState(false);
   const { history } = props;
   const { handleCreateNote } = useContext(NoteContext) as NoteContextType;
   return (
@@ -21,11 +22,15 @@ const WelcomePage = (props: RouteComponentProps<WelcomeProps>) => {
             eos consequatur perspiciatis!
           </Text>
           <Button
+            isLoading={isCreateNoteLoading}
+            loadingText="Creating note"
             rightIcon={<Icon as={HiPlus} />}
             bgColor="primary.base"
             colorScheme="green"
             onClick={async () => {
+              setIsCreateNoteLoading(true);
               const res = await handleCreateNote();
+              setIsCreateNoteLoading(false);
               history.push(`/app/note/${res.doc.slug}`);
             }}
           >
