@@ -10,7 +10,7 @@ export const NotesLogo = createIcon({
           transform="translate(77 75)"
           fill="currentColor"
           fontSize="50"
-          fontFamily="SegoeUI-Bold, Segoe UI"
+          fontFamily="SegoeUI-Bold, Segoe UI, san-serif"
           fontWeight="700"
         >
           <tspan x="0" y="0">
