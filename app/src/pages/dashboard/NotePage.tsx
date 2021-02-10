@@ -19,6 +19,7 @@ import { NoteContext, NoteContextType } from "../../store/context/note";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { HiDocumentDownload, HiTrash } from "react-icons/hi";
 import { transformNoteData } from "../../helpers/note";
+import TextToSpeech from "../../components/TextToSpeech";
 
 interface NotePageProps {
   noteslug?: string;
@@ -38,6 +39,7 @@ const GET_NOTE = gql`
 
 const NotePage = ({ isSideNavOpen }: NotePageProps) => {
   // const { history, match } = props;
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const history = useHistory();
   const match = useRouteMatch() as any;
 
@@ -65,6 +67,7 @@ const NotePage = ({ isSideNavOpen }: NotePageProps) => {
     let mounted = true;
 
     if (mounted) {
+      setIsSpeaking(false);
       if (data?.note?.content) {
         const rawContent = convertFromRaw(JSON.parse(data.note.content));
         setEditorState(EditorState.createWithContent(rawContent));
@@ -97,77 +100,74 @@ const NotePage = ({ isSideNavOpen }: NotePageProps) => {
         setEditorState={setEditorState}
         isSideNavOpen={isSideNavOpen}
         actions={[
-          <Menu key="more options">
-            <Tooltip label="More Options">
-              <MenuButton
-                as={IconButton}
-                aria-label="More"
-                icon={<Icon as={FiMoreHorizontal} />}
+          isSpeaking ? (
+            <Box key="speak" display="inline-block">
+              <TextToSpeech
+                handleOnFinishSpeaking={() => setIsSpeaking(false)}
+                utterText={editorState.getCurrentContent().getPlainText()}
               />
-            </Tooltip>
-            <MenuList>
-              <MenuItem
-                icon={<Icon as={HiDocumentDownload} />}
-                onClick={() => {
-                  const element = document.createElement("a");
+            </Box>
+          ) : undefined,
+          <Box key="more options" display="inline-block">
+            <Menu key="more options">
+              <Tooltip label="More Options">
+                <MenuButton
+                  as={IconButton}
+                  aria-label="More"
+                  icon={<Icon as={FiMoreHorizontal} />}
+                />
+              </Tooltip>
+              <MenuList>
+                <MenuItem
+                  icon={<Icon as={HiDocumentDownload} />}
+                  onClick={() => {
+                    const element = document.createElement("a");
 
-                  const dataa = editorState
-                    .getCurrentContent()
-                    .getPlainText("")
-                    .split(" ")
-                    .join(" ");
-
-                  const file = new Blob([dataa], {
-                    type: "text/plain",
-                  });
-
-                  element.href = URL.createObjectURL(file);
-                  element.download = data.note.title;
-                  document.body.appendChild(element);
-                  element.click();
-                  console.log(dataa);
-                }}
-              >
-                Download Note as txt
-              </MenuItem>
-              <MenuItem
-                icon={<Icon as={HiTrash} />}
-                onClick={() => {
-                  if ("speechSynthesis" in window) {
-                    const utterText = editorState
+                    const dataa = editorState
                       .getCurrentContent()
-                      .getPlainText("");
+                      .getPlainText("")
+                      .split(" ")
+                      .join(" ");
 
-                    const synth = window.speechSynthesis;
-                    // Speech Synthesis supported 🎉
-                    const voices = synth.getVoices();
+                    const file = new Blob([dataa], {
+                      type: "text/plain",
+                    });
 
-                    const msg = new SpeechSynthesisUtterance();
-                    msg.text = utterText;
-
-                    msg.voice = voices[4];
-                    msg.volume = 1;
-                    msg.rate = 0.8;
-
-                    synth.speak(msg);
-                  } else {
-                    alert("Sorry, your browser doesn't support this feature!");
-                  }
-                }}
-              >
-                Read Note Aloud
-              </MenuItem>
-              <MenuItem icon={<Icon as={HiTrash} />} onClick={handleDelete}>
-                Delete Note
-              </MenuItem>
-              <MenuItem icon={<Icon as={HiTrash} />} onClick={handleUpdate}>
-                Update Note
-              </MenuItem>
-              {/* <MenuItem command="⌘N">New Window</MenuItem>
+                    element.href = URL.createObjectURL(file);
+                    element.download = data.note.title;
+                    document.body.appendChild(element);
+                    element.click();
+                    console.log(dataa);
+                  }}
+                >
+                  Download Note as txt
+                </MenuItem>
+                <MenuItem
+                  icon={<Icon as={HiTrash} />}
+                  onClick={() => {
+                    if ("speechSynthesis" in window) {
+                      setIsSpeaking(true);
+                    } else {
+                      alert(
+                        "Sorry, your browser doesn't support this feature!"
+                      );
+                    }
+                  }}
+                >
+                  Read Note Aloud
+                </MenuItem>
+                <MenuItem icon={<Icon as={HiTrash} />} onClick={handleDelete}>
+                  Delete Note
+                </MenuItem>
+                <MenuItem icon={<Icon as={HiTrash} />} onClick={handleUpdate}>
+                  Update Note
+                </MenuItem>
+                {/* <MenuItem command="⌘N">New Window</MenuItem>
               <MenuItem command="⌘⇧N">Open Closed Tab</MenuItem>
               <MenuItem command="⌘O">Open File...</MenuItem> */}
-            </MenuList>
-          </Menu>,
+              </MenuList>
+            </Menu>
+          </Box>,
         ]}
         onSave={() => {
           console.log("save note");
@@ -178,33 +178,3 @@ const NotePage = ({ isSideNavOpen }: NotePageProps) => {
 };
 
 export default NotePage;
-
-// interface IProps {
-//   key?: string;
-//   utterText: string;
-// }
-
-// const SpeechComp = (props: IProps) => {
-//   // const [synth, setSynth] = useState<SpeechSynthesis>();
-//   const { utterText } = props;
-
-//   useEffect(() => {
-//     const voices = synth.getVoices();
-
-//     const msg = new SpeechSynthesisUtterance();
-//     msg.text = utterText;
-
-//     msg.voice = voices[4];
-//     msg.volume = 1;
-//     msg.rate = 0.8;
-
-//     synth.speak(msg);
-//     // msg.onstart = (ev: SpeechSynthesisEvent) => {
-//     //   setSyncState(true);
-//     // };
-//     // msg.onend = (ev: SpeechSynthesisEvent) => {};
-//   }, [synth, utterText]);
-//   return <Box display="inline-block">speak</Box>;
-// };
-
-// export default SpeechComp;

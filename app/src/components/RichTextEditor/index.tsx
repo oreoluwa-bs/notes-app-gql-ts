@@ -1,4 +1,4 @@
-import { Box, useColorModeValue } from "@chakra-ui/react";
+import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
 import { useEffect, useRef } from "react";
 import { getBlockStyle, styleMap } from "./RichTextHelpers";
@@ -72,10 +72,15 @@ const RichTextEditor = ({
             editorState={editorState}
             handleOnChange={handleOnChange}
           />
-          <Box>{actions.map((item) => item)}</Box>
+          <Stack
+            direction={{ base: "column-reverse", sm: "row" }}
+            spacing={{ base: "1rem", sm: "0.5rem" }}
+          >
+            {actions.map((item) => item)}
+          </Stack>
         </Box>
       </Box>
-      <Box pt="28" px="35px">
+      <Box pt={{ base: "40", sm: "28" }} px="35px">
         <Editor
           ref={EditorRef}
           editorState={editorState}
