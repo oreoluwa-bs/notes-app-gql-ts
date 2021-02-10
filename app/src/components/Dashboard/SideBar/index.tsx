@@ -16,7 +16,7 @@ import {
   useTheme,
   VisuallyHidden,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { HiMenu, HiSearch, HiX } from "react-icons/hi";
 import { Link as RRLink, useRouteMatch } from "react-router-dom";
 import { NotesLogo } from "../../icons";
@@ -48,23 +48,36 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
   });
   const { loading, data } = useQuery(GET_MY_NOTES);
 
-  const handleOnChangeSearchValue = (
-    evt: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchValue(evt.target.value);
-    if (evt.target.value) {
-      const newNotes = myNotes.getMyNotes.filter(
+  const filteredNotes = useMemo(
+    () =>
+      myNotes?.getMyNotes.filter(
         ({ content = "" }: { content: string | null }) => {
           if (!content) {
             return false;
           }
-          return content.toLowerCase().includes(evt.target.value.toLowerCase());
+          return content.toLowerCase().includes(searchValue.toLowerCase());
         }
-      );
-      setMyNotes({ getMyNotes: newNotes });
-    } else {
-      setMyNotes(data);
-    }
+      ),
+    [myNotes?.getMyNotes, searchValue]
+  );
+
+  const handleOnChangeSearchValue = (
+    evt: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchValue(evt.target.value);
+    // if (evt.target.value) {
+    //   const newNotes = myNotes.getMyNotes.filter(
+    //     ({ content = "" }: { content: string | null }) => {
+    //       if (!content) {
+    //         return false;
+    //       }
+    //       return content.toLowerCase().includes(evt.target.value.toLowerCase());
+    //     }
+    //   );
+    //   setMyNotes({ getMyNotes: newNotes });
+    // } else {
+    //   setMyNotes(data);
+    // }
   };
 
   useEffect(() => {
@@ -173,17 +186,15 @@ const SideBar = ({ isOpen, onOpen, onClose, isMobile }: SideNavProps) => {
           {/* lINKS */}
           <Skeleton isLoaded={!loading}>
             <Box px="1rem">
-              {myNotes?.getMyNotes?.map(
-                ({ slug, ...note }: { slug: string }) => (
-                  <SideNavLink
-                    key={`note-${slug}`}
-                    path={currentMatch.path}
-                    slug={slug}
-                    onClick={isMobile ? onOpen : undefined}
-                    {...note}
-                  />
-                )
-              )}
+              {filteredNotes?.map(({ slug, ...note }: { slug: string }) => (
+                <SideNavLink
+                  key={`note-${slug}`}
+                  path={currentMatch.path}
+                  slug={slug}
+                  onClick={isMobile ? onOpen : undefined}
+                  {...note}
+                />
+              ))}
             </Box>
           </Skeleton>
         </Box>
