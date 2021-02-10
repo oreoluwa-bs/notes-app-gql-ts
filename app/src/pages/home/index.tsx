@@ -13,7 +13,7 @@ const HomePage = (props: Props) => {
         width="100%"
         bgGradient={{
           base: "linear(to-b, blackAlpha.300, transparent)",
-          lg: "none",
+          //   lg: "none",
         }}
       >
         <Box
@@ -76,7 +76,7 @@ const HomePage = (props: Props) => {
           </Text>
           <Link as={RRLink} to="/demo" _hover={{ textDecoration: "none" }}>
             <Button colorScheme="green" bg="primary.base">
-              Get Demo
+              Explore demo now
             </Button>
           </Link>
         </Box>
