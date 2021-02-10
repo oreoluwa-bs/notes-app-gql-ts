@@ -1,7 +1,13 @@
 import { Box, Center, Spinner } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
-import { DashboardPage, SignInPage, SignUpPage, DemoPage } from "./pages";
+import {
+  DashboardPage,
+  SignInPage,
+  SignUpPage,
+  DemoPage,
+  HomePage,
+} from "./pages";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { AuthContext, AuthContextType } from "./store/context/auth";
 
@@ -37,7 +43,7 @@ const Routes = (props: Props) => {
   return (
     <Box>
       <Switch>
-        <Route exact path="/" component={() => <div>hi</div>} />
+        <Route exact path="/" component={HomePage} />
         <Route path="/signin" component={SignInPage} />
         <Route path="/signup" component={SignUpPage} />
 
