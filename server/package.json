@@ -14,6 +14,7 @@
     "validator": "^13.5.2"
   },
   "scripts": {
+    "start": "ts-node index.dev.ts",
     "watch": "nodemon --exec ts-node index.dev.ts",
     "lint": "eslint . --ext .ts"
   },

@@ -165,9 +165,9 @@ const NotePage = ({ isSideNavOpen }: NotePageProps) => {
                   <MenuItem icon={<Icon as={HiTrash} />} onClick={handleDelete}>
                     Delete Note
                   </MenuItem>
-                  <MenuItem icon={<Icon as={HiTrash} />} onClick={handleUpdate}>
+                  {/* <MenuItem icon={<Icon as={HiTrash} />} onClick={handleUpdate}>
                     Update Note
-                  </MenuItem>
+                  </MenuItem> */}
                   {/* <MenuItem command="⌘N">New Window</MenuItem>
               <MenuItem command="⌘⇧N">Open Closed Tab</MenuItem>
               <MenuItem command="⌘O">Open File...</MenuItem> */}
@@ -175,9 +175,7 @@ const NotePage = ({ isSideNavOpen }: NotePageProps) => {
               </Menu>
             </Box>,
           ]}
-          onSave={() => {
-            console.log("save note");
-          }}
+          onSave={handleUpdate}
         />
       </Suspense>
     </Box>
