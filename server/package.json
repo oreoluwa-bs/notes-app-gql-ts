@@ -12,6 +12,7 @@
     "mongoose": "^5.11.13",
     "slugify": "^1.4.6",
     "validator": "^13.5.2",
+    "module-alias": "^2.2.2",
     "ts-node": "^9.1.1"
   },
   "scripts": {
@@ -29,7 +30,6 @@
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "@typescript-eslint/parser": "^4.14.0",
     "eslint": "^7.18.0",
-    "module-alias": "^2.2.2",
     "nodemon": "^2.0.7",
     "typescript": "^4.1.3"
   },
