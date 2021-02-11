@@ -10,6 +10,7 @@
         "paths": {
             "@root/*": ["./src/*"],
         },
+        "outDir": "dist/",
         "skipLibCheck": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,

@@ -1,3 +1,3 @@
 import "module-alias/register";
 
-import "./src/index.ts";
+import "./src/index";
