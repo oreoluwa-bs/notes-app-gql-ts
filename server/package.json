@@ -14,7 +14,8 @@
     "validator": "^13.5.2"
   },
   "scripts": {
-    "start": "npm run build && ts-node dist/index.dev.js",
+    "start": "ts-node dist/index.dev.js",
+    "postinstall": "npm run build",
     "build": "tsc -p .",
     "watch": "nodemon --exec ts-node index.dev.ts",
     "lint": "eslint . --ext .ts"

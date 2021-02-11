@@ -2,8 +2,5 @@
   "name": "notes-app-ts",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "start": "cd server && npm install && npm run start"
-  }
+  "license": "MIT"
 }
