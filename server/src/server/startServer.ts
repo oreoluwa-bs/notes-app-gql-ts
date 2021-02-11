@@ -10,7 +10,7 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://notes-app-gql-ts.vercel.app"],
     credentials: true,
   },
   context: ({ req, res }) => ({ req, res, payload: null }),
