@@ -16,7 +16,7 @@
     "ts-node": "^9.1.1"
   },
   "scripts": {
-    "start": "ts-node dist/index.dev.js",
+    "start": "node index.dev.js",
     "postinstall": "npm run build",
     "build": "tsc -p .",
     "watch": "nodemon --exec ts-node index.dev.ts",
